@@ -2115,7 +2115,7 @@
                     <path d="M 1020 400 Q 600 500 180 400" fill="none" stroke="#f472b6" stroke-width="2.5" stroke-dasharray="8 5" marker-end="url(#pov-arrow-pink)">
                         <animate attributeName="stroke-dashoffset" from="200" to="0" dur="4s" repeatCount="indefinite"/>
                     </path>
-                    <text x="600" y="485" fill="#f9a8d4" font-size="12" font-weight="600" text-anchor="middle">Insight Loop — Ops feeds Discovery</text>
+                    <text x="600" y="435" fill="#f9a8d4" font-size="12" font-weight="600" text-anchor="middle">Insight Loop — Ops feeds Discovery</text>
 
                     <!-- Residuality bar at bottom -->
                     <rect x="50" y="460" width="1100" height="40" rx="10" fill="rgba(251,113,133,0.12)" stroke="#fb7185" stroke-width="1.5" stroke-dasharray="6 4"/>
@@ -3376,17 +3376,17 @@
             discovery: {
                 practices: ['Problem framing workshops', 'Customer interviews', 'JTBD mapping', 'Opportunity sizing'],
                 techniques: ['Impact mapping', 'Assumption mapping', 'Hypothesis definition', 'OKR alignment'],
-                tools: ['Productboard', 'Miro', 'Notion', 'Amplitude', 'Mixpanel']
+                tools: ['FigJam', 'Gemini', 'Google Analytics', 'Redash', 'Google Workspace']
             },
             delivery: {
                 practices: ['Backlog refinement', 'Sprint planning', 'Triad syncs', 'Stakeholder updates'],
                 techniques: ['Story slicing', 'INVEST criteria', 'Release planning', 'Go/No-go decisions'],
-                tools: ['Linear', 'Jira', 'Confluence', 'Slack', 'Loom']
+                tools: ['Gemini', 'ClickUp', 'Backstage', 'Slack', 'Mermaidjs']
             },
             operations: {
                 practices: ['Metric reviews', 'Customer feedback triage', 'Incident post-mortems', 'Feature adoption tracking'],
                 techniques: ['SLI/SLO analysis', 'Funnel analysis', 'Cohort analysis', 'A/B test interpretation'],
-                tools: ['Amplitude', 'Grafana', 'Hotjar', 'Zendesk', 'Datadog']
+                tools: ['Google Analytics', 'Grafana', 'Redash', 'Zendesk', 'Fullstory']
             }
         },
         designer: {
@@ -3397,17 +3397,17 @@
             discovery: {
                 practices: ['User research', 'Usability testing', 'Competitive analysis', 'Design sprints'],
                 techniques: ['Personas', 'Journey mapping', 'Service blueprints', 'Card sorting'],
-                tools: ['Figma', 'Maze', 'UserTesting', 'Dovetail', 'Optimal Workshop']
+                tools: ['Figma', 'Maze', 'UserTesting', 'Gemini']
             },
             delivery: {
                 practices: ['Design reviews', 'Dev handoffs', 'Design QA', 'Component documentation'],
                 techniques: ['Atomic design', 'Design tokens', 'Responsive patterns', 'Accessibility audits'],
-                tools: ['Figma', 'Storybook', 'Zeroheight', 'Chromatic', 'axe DevTools']
+                tools: ['Figma', 'Storybook', 'Gemini', 'Chromatic', 'axe DevTools']
             },
             operations: {
                 practices: ['UX metrics monitoring', 'Heatmap analysis', 'Session replay review', 'Design debt tracking'],
                 techniques: ['Task success rate', 'Time-on-task', 'Error rate analysis', 'NPS correlation'],
-                tools: ['Hotjar', 'FullStory', 'Amplitude', 'Maze', 'Sprig']
+                tools: ['Hotjar', 'FullStory', 'Google Analytics', 'Maze']
             }
         },
         eng: {
@@ -3418,17 +3418,17 @@
             discovery: {
                 practices: ['Technical spikes', 'Domain modeling', 'RFC reviews', 'Tech debt assessment'],
                 techniques: ['EventStorming', 'Bounded context mapping', 'API design', 'Data modeling'],
-                tools: ['Miro', 'draw.io', 'dbdiagram.io', 'Swagger', 'Postman']
+                tools: ['FigJam', 'Mermaidjs', 'Gemini', 'Swagger', 'Postman']
             },
             delivery: {
                 practices: ['TDD', 'Code reviews', 'Pair programming', 'CI/CD pipeline maintenance'],
                 techniques: ['Feature flags', 'Trunk-based development', 'Refactoring', 'Testing pyramid'],
-                tools: ['GitHub', 'Jest', 'Playwright', 'LaunchDarkly', 'CircleCI', 'Terraform']
+                tools: ['GitHub', 'Jest', 'Playwright', 'Unleash', 'ArgoCD', 'Terraform']
             },
             operations: {
                 practices: ['On-call rotations', 'Incident response', 'Performance tuning', 'Log analysis'],
                 techniques: ['Observability (traces, logs, metrics)', 'Chaos engineering', 'Runbook creation', 'SLO maintenance'],
-                tools: ['Datadog', 'PagerDuty', 'Grafana', 'Sentry', 'New Relic']
+                tools: ['Grafana Stack', 'PagerDuty', 'Sentry', 'OTel']
             }
         },
         ptl: {
@@ -3439,7 +3439,7 @@
             discovery: {
                 practices: ['Architecture reviews', 'Domain modeling sessions', 'Technical strategy', 'Risk assessment'],
                 techniques: ['ADRs', 'C4 diagrams', 'Fitness functions', 'Trade-off analysis'],
-                tools: ['Structurizr', 'Miro', 'Notion', 'GitHub Discussions']
+                tools: ['Structurizr', 'FigJam', 'Mermaidjs', 'Gemini', 'GitHub Discussions']
             },
             delivery: {
                 practices: ['Technical mentoring', 'Code architecture reviews', 'Cross-team alignment', 'Tech debt prioritization'],
@@ -3449,7 +3449,7 @@
             operations: {
                 practices: ['System health reviews', 'Capacity planning', 'Post-mortem facilitation', 'SLO definition'],
                 techniques: ['Error budget policies', 'Blast radius analysis', 'Dependency mapping', 'Failure mode analysis'],
-                tools: ['Grafana', 'Datadog', 'ServiceNow', 'PagerDuty']
+                tools: ['Grafana Stack', 'Backstage', 'ServiceNow', 'PagerDuty']
             }
         },
         staff: {
@@ -3460,17 +3460,17 @@
             discovery: {
                 practices: ['Cross-domain architecture', 'Technology radar', 'Platform strategy', 'Capability mapping'],
                 techniques: ['Wardley mapping', 'Technology selection frameworks', 'Build vs buy analysis', 'Migration planning'],
-                tools: ['Miro', 'Notion', 'ThoughtWorks Radar', 'Structurizr']
+                tools: ['FigJam', 'ClickUp', 'Backstage', 'ThoughtWorks Radar', 'Structurizr']
             },
             delivery: {
                 practices: ['Paved road creation', 'Large-scale refactoring', 'Cross-team enablement', 'Technical writing'],
                 techniques: ['Golden paths', 'Platform primitives', 'Developer experience design', 'Inner source'],
-                tools: ['Backstage', 'GitHub', 'Confluence', 'Internal docs platforms']
+                tools: ['Backstage', 'GitHub', 'ClickUp', 'Internal docs platforms']
             },
             operations: {
                 practices: ['System-wide reliability', 'Cross-domain incident response', 'Platform observability', 'Organizational learning'],
                 techniques: ['Resilience patterns', 'Chaos engineering strategy', 'Toil reduction', 'Automation ROI'],
-                tools: ['Datadog', 'Grafana', 'LitmusChaos', 'Gremlin']
+                tools: ['Grafana Stack', 'Unleash', 'LitmusChaos', 'Gremlin']
             }
         },
         platform: {
