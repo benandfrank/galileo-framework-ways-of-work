@@ -1,5 +1,4 @@
-
-        body {
+body {
             font-family: 'Space Grotesk', 'Inter', sans-serif;
             background-color: #0b0f19;
             color: #e2e8f0;
@@ -140,4 +139,19 @@
         .ctx-clickable:hover rect {
             stroke-width: 3 !important;
         }
-    
+        .journey-icon {
+            font-family: 'Material Symbols Outlined';
+            font-size: 32px;
+            text-anchor: middle;
+        }
+        .journey-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-anchor: middle;
+        }
+        .journey-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            text-anchor: middle;
+        }
