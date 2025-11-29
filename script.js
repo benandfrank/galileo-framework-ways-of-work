@@ -1,3 +1,4 @@
+
 tailwind.config = {
     theme: {
         extend: {
@@ -1011,53 +1012,3 @@ tailwind.config = {
             });
         }
     });
-
-// CUSTOMER JOURNEY PANEL
-const journeyStepDetails = [
-    { title: 'Acquisition', icon: 'campaign', ddo_track: 'Discovery', ddo_color: 'blue', description: 'The customer first becomes aware of the brand through marketing efforts, word-of-mouth, or by seeing a physical store. This is the initial touchpoint that begins their journey.' },
-    { title: 'Look Good (Explore & Choose)', icon: 'eyeglasses', ddo_track: 'Discovery', ddo_color: 'blue', description: 'The customer explores the product catalog online or in-store. They try on frames, use virtual try-on tools, and find a style that expresses their identity. This phase is about inspiration and finding the perfect look.' },
-    { title: 'See Well (Eye Exam)', icon: 'visibility', ddo_track: 'Delivery', ddo_color: 'green', description: 'In a physical store, the customer undergoes a professional eye exam to determine their prescription. This is a critical step where clinical precision and customer comfort are paramount. The value of "seeing well" is delivered here.' },
-    { title: 'Decide on Us (Purchase)', icon: 'shopping_cart', ddo_track: 'Discovery', ddo_color: 'blue', description: 'With a style chosen and a prescription in hand, the customer commits to the purchase. This involves selecting lens types, coatings, and completing the payment transaction at the Point of Sale (PoS).' },
-    { title: 'Get Receipts (Billing)', icon: 'receipt_long', ddo_track: 'Operations', ddo_color: 'rose', description: 'Post-purchase, the system provides immediate confirmation, a detailed receipt, and a frictionless way to request a fiscal invoice (factura). This step ensures transparency and builds trust.' },
-    { title: 'Quality & Progress (Manufacturing)', icon: 'precision_manufacturing', ddo_track: 'Delivery', ddo_color: 'green', description: 'The order is sent to the lab where lenses are custom-made and fitted to the frame. A rigorous Quality Control (QC) process ensures the final product meets our high standards.' },
-    { title: 'Track Your Order (Shipping)', icon: 'local_shipping', ddo_track: 'Operations', ddo_color: 'rose', description: 'The finished glasses are shipped. The customer can track the package status and receives notifications, providing visibility and managing expectations until the product is in their hands.' },
-    { title: 'Enjoy Your Product (Loyalty)', icon: 'sentiment_very_satisfied', ddo_track: 'Operations', ddo_color: 'rose', description: 'The customer receives and uses their new glasses. The journey continues with warranty support, customer service, and engagement that fosters long-term loyalty and encourages future purchases.' }
-];
-
-function showJourneyStepDetail(stepIndex) {
-    const detail = journeyStepDetails[stepIndex];
-    if (!detail) return;
-
-    const overlay = document.getElementById('journey-step-overlay');
-    const card = document.getElementById('journey-step-card');
-    const titleEl = document.getElementById('journey-step-title');
-    const descriptionEl = document.getElementById('journey-step-description');
-    const trackTagEl = document.getElementById('journey-step-track-tag');
-
-    // Populate data
-    titleEl.innerHTML = `<span class="material-symbols-outlined">${detail.icon}</span> ${detail.title}`;
-    descriptionEl.textContent = detail.description;
-    trackTagEl.textContent = detail.ddo_track;
-
-    // Set color
-    const colorClass = `tag-${detail.ddo_color}`;
-    const borderClass = `border-${detail.ddo_color}-500`;
-    trackTagEl.className = `px-3 py-1 text-xs font-semibold rounded-full ${colorClass}`;
-    card.className = `glass-panel rounded-2xl p-7 border-l-4 max-w-lg w-full transform -translate-y-4 transition-transform duration-300 ${borderClass}`;
-    
-    // Show overlay
-    overlay.classList.remove('opacity-0');
-    overlay.style.pointerEvents = 'auto';
-    setTimeout(() => {
-        card.classList.remove('-translate-y-4');
-    }, 50);
-}
-
-function hideJourneyStepDetail() {
-    const overlay = document.getElementById('journey-step-overlay');
-    const card = document.getElementById('journey-step-card');
-
-    card.classList.add('-translate-y-4');
-    overlay.classList.add('opacity-0');
-    overlay.style.pointerEvents = 'none';
-}

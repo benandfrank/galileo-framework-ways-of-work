@@ -101,14 +101,14 @@
                 </p>
             </div>
 
-            <div class="mt-10 cursor-pointer" onclick="document.getElementById('continuous-flow-engine').scrollIntoView({ behavior: 'smooth' });">
+            <div class="mt-10">
                 <span class="material-symbols-outlined text-3xl text-slate-500 animate-bounce">expand_more</span>
             </div>
         </div>
     </header>
 
     <!-- CONTINUOUS FLOW ENGINE -->
-    <section id="continuous-flow-engine" class="py-16 px-4 bg-[#020617]">
+    <section class="py-16 px-4 bg-[#020617]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-10">
                 <h2 class="text-3xl md:text-4xl font-semibold mb-2">Continuous Flow Engine</h2>
@@ -340,7 +340,7 @@
                 Three parallel tracks, one <span class="text-gradient">customer value stream</span>
             </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Discovery -->
                 <article class="glass-panel rounded-2xl p-7 border-t-4 border-blue-500 reveal-on-scroll">
                     <div class="flex items-center justify-between mb-3">
@@ -423,246 +423,8 @@
                     </p>
                 </article>
             </div>
-
-            <!-- CUSTOMER VALUE STREAM PANEL START -->
-            <article class="glass-panel rounded-2xl p-7 md:p-8 border-l-4 border-sky-400 reveal-on-scroll mb-8">
-                <!-- 1. Panel Header -->
-                <div class="mb-8">
-                    <h3 class="text-2xl font-semibold text-sky-200 flex items-center gap-3 mb-2">
-                        <span class="material-symbols-outlined">waves</span>
-                        Customer Value Stream
-                    </h3>
-                    <p class="text-sm text-slate-300 max-w-4xl mb-3">
-                        End-to-end flow from the perspective of <strong>4ojos</strong> (customer) and <strong>casimirx</strong> (store and lab operators).
-                    </p>
-                    <p class="text-sm text-slate-400 leading-relaxed max-w-4xl">
-                        This journey is the central driver of our work. It is not a linear process, but a continuous flow of value creation and feedback. Discovery clarifies the path, Delivery builds the means of travel, and Operations ensures the journey is smooth and reliable. The three tracks synchronize constantly to adapt to the customer's real-world needs and context.
-                    </p>
-                </div>
-
-                <!-- 2. Main Horizontal SVG Diagram -->
-                <div class="mb-10 overflow-x-auto pb-4 relative">
-                    <svg id="customer-journey-svg" viewBox="0 0 1640 140" class="min-w-[1640px] h-auto">
-                        <defs>
-                        </defs>
-
-                        <!-- Step 1: Acquisition -->
-                        <g transform="translate(20, 0)" onclick="showJourneyStepDetail(0)" class="cursor-pointer">
-                            <rect width="190" height="130" rx="12" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-opacity="0.6"/>
-                            <text x="95" y="45" class="journey-icon" fill="#93c5fd">campaign</text>
-                            <text x="95" y="75" class="journey-title" fill="#dbeafe">Acquisition</text>
-                            <text x="95" y="95" class="journey-desc" fill="#93c5fd">• Sees an ad or gets</text>
-                            <text x="95" y="110" class="journey-desc" fill="#93c5fd">a referral</text>
-                        </g>
-
-                        <!-- Step 2: Explore -->
-                        <g transform="translate(220, 0)" onclick="showJourneyStepDetail(1)" class="cursor-pointer">
-                            <rect width="190" height="130" rx="12" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-opacity="0.6"/>
-                            <text x="95" y="45" class="journey-icon" fill="#93c5fd">eyeglasses</text>
-                            <text x="95" y="75" class="journey-title" fill="#dbeafe">Look Good</text>
-                            <text x="95" y="95" class="journey-desc" fill="#93c5fd">• Explores &amp; chooses</text>
-                             <text x="95" y="110" class="journey-desc" fill="#93c5fd">frames</text>
-                        </g>
-
-                        <!-- Step 3: Eye Exam -->
-                        <g transform="translate(420, 0)" onclick="showJourneyStepDetail(2)" class="cursor-pointer">
-                            <rect width="190" height="130" rx="12" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" stroke-opacity="0.6"/>
-                            <text x="95" y="45" class="journey-icon" fill="#a7f3d0">visibility</text>
-                            <text x="95" y="75" class="journey-title" fill="#d1fae5">See Well</text>
-                            <text x="95" y="95" class="journey-desc" fill="#a7f3d0">• Gets an eye exam</text>
-                            <text x="95" y="110" class="journey-desc" fill="#a7f3d0">in-store</text>
-                        </g>
-
-                        <!-- Step 4: Purchase -->
-                        <g transform="translate(620, 0)" onclick="showJourneyStepDetail(3)" class="cursor-pointer">
-                             <rect width="190" height="130" rx="12" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-opacity="0.6"/>
-                            <text x="95" y="45" class="journey-icon" fill="#93c5fd">shopping_cart</text>
-                            <text x="95" y="75" class="journey-title" fill="#dbeafe">Decide on Us</text>
-                            <text x="95" y="95" class="journey-desc" fill="#93c5fd">• Makes the purchase</text>
-                             <text x="95" y="110" class="journey-desc" fill="#93c5fd">at the PoS</text>
-                        </g>
-
-                        <!-- Step 5: Billing -->
-                        <g transform="translate(820, 0)" onclick="showJourneyStepDetail(4)" class="cursor-pointer">
-                            <rect width="190" height="130" rx="12" fill="rgba(236, 72, 153, 0.15)" stroke="#ec4899" stroke-opacity="0.6"/>
-                            <text x="95" y="45" class="journey-icon" fill="#f9a8d4">receipt_long</text>
-                            <text x="95" y="75" class="journey-title" fill="#fce7f3">Get Receipts</text>
-                            <text x="95" y="95" class="journey-desc" fill="#f9a8d4">• Receives confirmation,</text>
-                            <text x="95" y="110" class="journey-desc" fill="#f9a8d4">requests invoice</text>
-                        </g>
-
-                        <!-- Step 6: Manufacturing -->
-                        <g transform="translate(1020, 0)" onclick="showJourneyStepDetail(5)" class="cursor-pointer">
-                            <rect width="190" height="130" rx="12" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" stroke-opacity="0.6"/>
-                            <text x="95" y="45" class="journey-icon" fill="#a7f3d0">precision_manufacturing</text>
-                            <text x="95" y="75" class="journey-title" fill="#d1fae5">Quality &amp; Progress</text>
-                            <text x="95" y="95" class="journey-desc" fill="#a7f3d0">• Lenses are crafted</text>
-                            <text x="95" y="110" class="journey-desc" fill="#a7f3d0">and pass QC</text>
-                        </g>
-
-                        <!-- Step 7: Shipping -->
-                        <g transform="translate(1220, 0)" onclick="showJourneyStepDetail(6)" class="cursor-pointer">
-                            <rect width="190" height="130" rx="12" fill="rgba(236, 72, 153, 0.15)" stroke="#ec4899" stroke-opacity="0.6"/>
-                            <text x="95" y="45" class="journey-icon" fill="#f9a8d4">local_shipping</text>
-                            <text x="95" y="75" class="journey-title" fill="#fce7f3">Track Your Order</text>
-                            <text x="95" y="95" class="journey-desc" fill="#f9a8d4">• Checks status and</text>
-                            <text x="95" y="110" class="journey-desc" fill="#f9a8d4">receives the order</text>
-                        </g>
-
-                        <!-- Step 8: Enjoyment -->
-                        <g transform="translate(1420, 0)" onclick="showJourneyStepDetail(7)" class="cursor-pointer">
-                            <rect width="190" height="130" rx="12" fill="rgba(236, 72, 153, 0.15)" stroke="#ec4899" stroke-opacity="0.6"/>
-                            <text x="95" y="45" class="journey-icon" fill="#f9a8d4">sentiment_very_satisfied</text>
-                            <text x="95" y="75" class="journey-title" fill="#fce7f3">Enjoy Product</text>
-                            <text x="95" y="95" class="journey-desc" fill="#f9a8d4">• Uses product with</text>
-                            <text x="95" y="110" class="journey-desc" fill="#f9a8d4">support &amp; warranty</text>
-                        </g>
-                    </svg>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- 3. Moments of Truth -->
-                    <div class="glass-panel rounded-xl p-5 border border-slate-700">
-                        <h4 class="text-lg font-semibold text-slate-100 mb-4">Moments of Truth</h4>
-                        <div class="space-y-4">
-                            <!-- Moment 1 -->
-                            <div>
-                                <h5 class="font-semibold text-slate-200">1. Frame Selection</h5>
-                                <p class="text-xs text-slate-400 mt-1">
-                                    <strong class="text-slate-300">4ojos:</strong> "I found a style that represents me." It's a moment of identity and self-expression.
-                                </p>
-                                <p class="text-xs text-slate-400 mt-1">
-                                    <strong class="text-slate-300">casimirx:</strong> "Inventory and display generated a sale." It's the conversion from interest to desire.
-                                </p>
-                                <div class="mt-1.5"><span class="tag-blue">Discovery</span></div>
-                            </div>
-                            <!-- Moment 2 -->
-                            <div>
-                                <h5 class="font-semibold text-slate-200">2. Purchase Confirmation</h5>
-                                <p class="text-xs text-slate-400 mt-1">
-                                    <strong class="text-slate-300">4ojos:</strong> "My payment was successful and I know what to expect." It builds security and trust.
-                                </p>
-                                <p class="text-xs text-slate-400 mt-1">
-                                    <strong class="text-slate-300">casimirx:</strong> "The transaction is firm and the order is created in Odoo without errors." System integrity.
-                                </p>
-                                 <div class="mt-1.5"><span class="tag-rose">Operations</span></div>
-                            </div>
-                             <!-- Moment 3 -->
-                            <div>
-                                <h5 class="font-semibold text-slate-200">3. Delivery and Product Unboxing</h5>
-                                <p class="text-xs text-slate-400 mt-1">
-                                    <strong class="text-slate-300">4ojos:</strong> "It arrived on time and I can see perfectly." It's the fulfillment of the value promise.
-                                </p>
-                                <p class="text-xs text-slate-400 mt-1">
-                                    <strong class="text-slate-300">casimirx:</strong> "The cycle is complete, the customer is satisfied, and may return." Retention and loyalty.
-                                </p>
-                                 <div class="mt-1.5"><span class="tag-green">Delivery</span> <span class="tag-rose">Operations</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 4. Alternative Paths & Exceptions -->
-                    <div class="glass-panel rounded-xl p-5 border border-slate-700">
-                         <h4 class="text-lg font-semibold text-slate-100 mb-4">Alternative Paths & Exceptions</h4>
-                         <div class="space-y-3 text-xs">
-                             <div>
-                                 <h5 class="font-semibold text-slate-300 mb-1">Common Alternative Paths</h5>
-                                 <div class="flex flex-wrap gap-1.5">
-                                     <span class="tag-gray">Prescription Issues <span class="tag-green">Delivery</span></span>
-                                     <span class="tag-gray">Payment Failures <span class="tag-rose">Ops</span></span>
-                                     <span class="tag-gray">Variant Unavailability <span class="tag-blue">Discovery</span></span>
-                                 </div>
-                             </div>
-                              <div>
-                                 <h5 class="font-semibold text-slate-300 mb-1">High-Friction Exceptions</h5>
-                                 <div class="flex flex-wrap gap-1.5">
-                                     <span class="tag-gray">Manufacturing Delays <span class="tag-green">Delivery</span></span>
-                                     <span class="tag-gray">Shipping Misrouting <span class="tag-rose">Ops</span></span>
-                                     <span class="tag-gray">Odoo Constraint Errors <span class="tag-rose">Ops</span></span>
-                                 </div>
-                             </div>
-                             <div>
-                                 <h5 class="font-semibold text-slate-300 mb-1">Operational Escalations</h5>
-                                 <div class="flex flex-wrap gap-1.5">
-                                     <span class="tag-gray">Lab Rejects <span class="tag-rose">Ops</span></span>
-                                     <span class="tag-gray">Remake Flows <span class="tag-green">Delivery</span></span>
-                                     <span class="tag-gray">QC Failures <span class="tag-green">Delivery</span></span>
-                                 </div>
-                             </div>
-                         </div>
-                    </div>
-                </div>
-
-                <!-- 5. DDO Integration Map -->
-                <div class="mt-8">
-                    <h4 class="text-lg font-semibold text-slate-100 mb-3">Diagram → DDO Integration Map</h4>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs simple-table">
-                            <thead>
-                                <tr>
-                                    <th>Customer Step</th>
-                                    <th>Primary DDO Track</th>
-                                    <th>Supporting Team Topology</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Acquisition / Explore & Choose</td>
-                                    <td><span class="tag-blue">Discovery</span></td>
-                                    <td>Stream-Aligned (CommerceFlow)</td>
-                                </tr>
-                                <tr>
-                                    <td>Eye Exam / Purchase & Payment</td>
-                                    <td><span class="tag-green">Delivery</span></td>
-                                    <td>Stream-Aligned (PoS), Complicated Subsystem (Odoo)</td>
-                                </tr>
-                                <tr>
-                                    <td>Billing / Shipping & Delivery</td>
-                                    <td><span class="tag-rose">Operations</span></td>
-                                    <td>Platform (Data, Tech), Stream-Aligned (Logistics)</td>
-                                </tr>
-                                 <tr>
-                                    <td>Manufacturing & QC</td>
-                                    <td><span class="tag-green">Delivery</span></td>
-                                    <td>Complicated Subsystem (Lab), Enabling (Quality)</td>
-                                </tr>
-                                <tr>
-                                    <td>Warranty & Support</td>
-                                    <td><span class="tag-rose">Operations</span></td>
-                                    <td>Stream-Aligned (CustomerCare), Enabling (Design)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </article>
-            <!-- CUSTOMER VALUE STREAM PANEL END -->
         </div>
     </section>
-
-            <!-- JOURNEY STEP DETAIL OVERLAY START -->
-            <div id="journey-step-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 opacity-0 transition-opacity duration-300 p-6 flex items-center justify-center pointer-events-none">
-                <div id="journey-step-card" class="glass-panel rounded-2xl p-7 border-l-4 max-w-lg w-full transform -translate-y-4 transition-transform duration-300">
-                    <div class="flex items-center justify-between mb-3">
-                        <h3 id="journey-step-title" class="text-xl font-semibold flex items-center gap-2">
-                            <span id="journey-step-icon" class="material-symbols-outlined"></span>
-                            <!-- Title will be injected here -->
-                        </h3>
-                        <button onclick="hideJourneyStepDetail()" class="text-slate-500 hover:text-slate-300 transition">
-                            <span class="material-symbols-outlined">close</span>
-                        </button>
-                    </div>
-                    <p id="journey-step-description" class="text-sm text-slate-200 mb-4">
-                        <!-- Description will be injected here -->
-                    </p>
-                    <div>
-                        <span id="journey-step-track-tag" class="tag-blue">
-                            <!-- DDO Track will be injected here -->
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <!-- JOURNEY STEP DETAIL OVERLAY END -->
 </div>
 
 <!-- ============================================= -->
@@ -703,14 +465,14 @@
                 </p>
             </div>
 
-            <div class="mt-10 cursor-pointer" onclick="document.getElementById('pom-diagram-section').scrollIntoView({ behavior: 'smooth' });">
+            <div class="mt-10">
                 <span class="material-symbols-outlined text-3xl text-slate-500 animate-bounce">expand_more</span>
             </div>
         </div>
     </header>
 
     <!-- CENTRAL POM DIAGRAM -->
-    <section id="pom-diagram-section" class="py-14 bg-[#020617]">
+    <section class="py-14 bg-[#020617]">
         <div class="max-w-7xl mx-auto px-4 mb-6 flex flex-col md:flex-row items-end justify-between gap-4">
             <div>
                 <h2 class="text-3xl md:text-4xl font-semibold text-slate-50 mb-2">
@@ -1267,14 +1029,14 @@
                 </p>
             </div>
 
-            <div class="mt-8 cursor-pointer" onclick="document.getElementById('sta-diagram-section').scrollIntoView({ behavior: 'smooth' });">
+            <div class="mt-8">
                 <span class="material-symbols-outlined text-2xl text-slate-500 animate-bounce">expand_more</span>
             </div>
         </div>
     </header>
 
     <!-- FIVE LAYER MODEL -->
-    <section id="sta-diagram-section" class="py-16 px-4 bg-[#020617]">
+    <section class="py-16 px-4 bg-[#020617]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-10">
                 <h2 class="text-3xl md:text-4xl font-semibold mb-2">Five-Layer Architecture Model</h2>
@@ -2078,14 +1840,14 @@
                 </p>
             </div>
 
-            <div class="mt-8 cursor-pointer" onclick="document.getElementById('pov-diagram-section').scrollIntoView({ behavior: 'smooth' });">
+            <div class="mt-8">
                 <span class="material-symbols-outlined text-2xl text-slate-500 animate-bounce">expand_more</span>
             </div>
         </div>
     </header>
 
     <!-- HOW ROLES SHAPE THE SYSTEM - INTERACTIVE -->
-    <section id="pov-diagram-section" class="py-12 px-4 bg-[#020617]">
+    <section class="py-12 px-4 bg-[#020617]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-6">
                 <h2 class="text-2xl md:text-3xl font-semibold mb-2">How Roles Shape the System</h2>
