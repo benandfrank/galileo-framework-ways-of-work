@@ -32,3 +32,9 @@ python -m http.server 8000
 
 ## Extending
 Edit the config objects in `script.js` (`wowConfig`, `pomConfig`, `staLayers`, `contextData`, `journeyStepDetails`, `roleActivitiesData`) to update content or add tracks without touching HTML.
+
+## Alignment with Galileo Ways of Work
+- **Customer-first**: Journey cards and modals show both 4ojos (customer) and casimirx (operators) perspectives.
+- **DDO continuous flow**: Discovery/Delivery/Operations run in parallel; loops and residuality overlays are surfaced per view.
+- **Team Topologies**: Stream-Aligned, Platform, Enabling, and Complicated Subsystem overlays on POM, STA, and context map.
+- **Residuality Theory**: Stressors, fog-of-unknowns, and fragility spine visuals to guide where to invest.

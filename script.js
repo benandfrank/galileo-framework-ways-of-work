@@ -281,7 +281,7 @@ function buildPomDiagram() {
 
     const tracks = pomConfig.tracks.map(t => `
         <g class="pom-track" data-track="${t.id}" role="button" aria-label="${t.label}" data-focusable="true" data-tooltip="${t.label}">
-            <path d="${t.id === 'discovery' ? 'M -80,150 C 260,100 540,210 1280,150' : t.id === 'delivery' ? 'M -80,350 C 260,350 540,350 1280,350' : 'M -80,550 C 260,600 540,500 1280,550'}" stroke="url(#pom-grad-${t.id})" stroke-width="130" fill="none"></path>
+            <path d="${t.id === 'discovery' ? 'M -80,150 C 260,100 540,210 1280,150' : t.id === 'delivery' ? 'M -80,350 C 260,350 540,350 1280,350' : 'M -80,550 C 260,600 540,500 1280,550'}" stroke="url(#pom-grad-${t.id})" stroke-width="130" fill="none" filter="url(#pom-soft-glow)"></path>
             <text x="130" y="${t.y}" fill="${t.color.text}" font-size="22" font-weight="700">${t.label}</text>
         </g>`).join('');
 
@@ -355,6 +355,13 @@ function buildPomDiagram() {
             <pattern id="pom-grid" width="40" height="40" patternUnits="userSpaceOnUse">
                 <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(148,163,184,0.08)" stroke-width="1"></path>
             </pattern>
+            <filter id="pom-soft-glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="6" result="glow"></feGaussianBlur>
+                <feMerge>
+                    <feMergeNode in="glow"></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+            </filter>
             <linearGradient id="pom-fog" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="#ffffff" stop-opacity="0.14"></stop>
                 <stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
@@ -555,7 +562,8 @@ function buildStaDiagram() {
     const svg = `
         <svg viewBox="0 0 1200 720" role="img" aria-label="Five-layer architecture model">
             ${defs}
-            <rect width="100%" height="100%" fill="url(#sta-grid)"></rect>
+            <rect width="100%" height="100%" rx="30" fill="rgba(15,23,42,0.9)" stroke="rgba(148,163,184,0.25)" stroke-width="1.4"></rect>
+            <rect width="100%" height="100%" fill="url(#sta-grid)" opacity="0.55"></rect>
             ${layerRects}
             ${ddoOverlay}
             ${teamsOverlay}
@@ -906,6 +914,9 @@ function buildContextMap() {
     const svg = `
         <svg id="ctx-map-svg" viewBox="0 0 1200 700" class="w-full h-full" role="img" aria-label="Context map">
             <defs>
+                <pattern id="ctx-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(148,163,184,0.06)" stroke-width="1"></path>
+                </pattern>
                 <linearGradient id="ctx-grad-core" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.9"></stop>
                     <stop offset="100%" stop-color="#2563eb" stop-opacity="0.9"></stop>
@@ -938,6 +949,9 @@ function buildContextMap() {
                     <path d="M0,0 L0,12 L12,6 z" fill="#94a3b8"></path>
                 </marker>
             </defs>
+
+            <rect x="20" y="20" width="1160" height="660" rx="24" fill="rgba(15,23,42,0.9)" stroke="rgba(148,163,184,0.25)" stroke-width="1.5"></rect>
+            <rect x="20" y="20" width="1160" height="660" rx="24" fill="url(#ctx-grid)" opacity="0.35"></rect>
 
             <text x="25" y="125" fill="#93c5fd" font-size="10" font-weight="600" text-anchor="middle" transform="rotate(-90 25 125)">L5 · CORE</text>
             <text x="25" y="340" fill="#fca5a5" font-size="10" font-weight="600" text-anchor="middle" transform="rotate(-90 25 340)">L4 · SUPPORTING</text>
