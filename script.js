@@ -97,9 +97,9 @@ const wowConfig = {
         { id: 'operations', label: 'C. Operations · Prove', y: 525, amplitude: 40, color: TRACK_COLORS.operations }
     ],
     loops: [
-        { id: 'insight', from: { x: 640, y: 505 }, cp: { x: 520, y: 337.5 }, to: { x: 640, y: 170 }, color: TRACK_COLORS.operations.base, label: 'Insight loop' },
-        { id: 'feasibility', from: { x: 760, y: 317 }, cp: { x: 680, y: 240 }, to: { x: 760, y: 165 }, color: TRACK_COLORS.delivery.base, label: 'Feasibility loop' },
-        { id: 'stability', from: { x: 520, y: 357 }, cp: { x: 600, y: 430 }, to: { x: 520, y: 505 }, color: TRACK_COLORS.delivery.base, label: 'Stability loop' }
+        { id: 'insight', from: { x: 640, y: 505 }, cp: { x: 520, y: 337.5 }, to: { x: 640, y: 170 }, color: TRACK_COLORS.operations.base, label: 'Insight loop', marker: 'wow-arrow-pink', dash: '8 5', width: 2.5, text: { x: 610, y: 320 } },
+        { id: 'feasibility', from: { x: 760, y: 317 }, cp: { x: 680, y: 240 }, to: { x: 760, y: 165 }, color: TRACK_COLORS.delivery.base, label: 'Feasibility loop', marker: 'wow-arrow-green', dash: '6 4', width: 2, text: { x: 730, y: 245 } },
+        { id: 'stability', from: { x: 520, y: 357 }, cp: { x: 600, y: 430 }, to: { x: 520, y: 505 }, color: '#22d3ee', label: 'Stability loop', marker: 'wow-arrow-cyan', dash: '3 9', width: 3.2, text: { x: 550, y: 440 } }
     ],
     residualZones: [
         { x: 0, y: 80, width: 1200, height: 80, text: 'Unknown unknowns – early Discovery and real life constraints' },
@@ -141,9 +141,22 @@ function buildWowDiagram() {
                     <stop offset="50%" stop-color="${val.light}" stop-opacity="0.32" />
                     <stop offset="100%" stop-color="${val.base}" stop-opacity="0.16" />
                 </linearGradient>`).join('')}
-            <marker id="wow-arrow" markerWidth="14" markerHeight="14" refX="12" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+            <marker id="wow-arrow-pink" markerWidth="14" markerHeight="14" refX="12" refY="5" orient="auto" markerUnits="userSpaceOnUse">
                 <path d="M0,0 L0,10 L12,5 z" fill="#f472b6"></path>
             </marker>
+            <marker id="wow-arrow-green" markerWidth="14" markerHeight="14" refX="12" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,0 L0,10 L12,5 z" fill="#34d399"></path>
+            </marker>
+            <marker id="wow-arrow-cyan" markerWidth="14" markerHeight="14" refX="12" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,0 L0,10 L12,5 z" fill="#22d3ee"></path>
+            </marker>
+            <filter id="wow-loop-glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur"></feGaussianBlur>
+                <feMerge>
+                    <feMergeNode in="blur"></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+            </filter>
             <linearGradient id="wow-fog" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="#ffffff" stop-opacity="0.16" />
                 <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
@@ -158,18 +171,21 @@ function buildWowDiagram() {
         </g>`).join('');
 
     const loops = wowConfig.loops.map(loop => `
-        <path d="M ${loop.from.x},${loop.from.y} Q ${loop.cp.x},${loop.cp.y} ${loop.to.x},${loop.to.y}" fill="none" stroke="${loop.color}" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#wow-arrow)">
-            <animate attributeName="stroke-dashoffset" from="120" to="0" dur="2s" repeatCount="indefinite"></animate>
-        </path>`).join('');
+        <g class="wow-loop" data-loop="${loop.id}">
+            <path d="M ${loop.from.x},${loop.from.y} Q ${loop.cp.x},${loop.cp.y} ${loop.to.x},${loop.to.y}" fill="none" stroke="${loop.color}" stroke-width="${loop.width || 2}" stroke-dasharray="${loop.dash || '6 6'}" marker-end="url(#${loop.marker || 'wow-arrow-pink'})" filter="url(#wow-loop-glow)">
+                <animate attributeName="stroke-dashoffset" from="120" to="0" dur="2s" repeatCount="indefinite"></animate>
+            </path>
+            ${loop.text ? `<text x="${loop.text.x}" y="${loop.text.y}" fill="${loop.color}" font-size="10" font-weight="600">${loop.label}</text>` : ''}
+        </g>`).join('');
 
     const residuals = `
-        <rect x="0" y="80" width="1200" height="80" fill="url(#wow-fog)" opacity="0.18"></rect>
-        <text x="80" y="110" fill="#fca5a5" font-size="12">Unknown unknowns – early Discovery and real life constraints</text>
+        <rect x="0" y="50" width="1200" height="70" fill="url(#wow-fog)" opacity="0.18"></rect>
+        <text x="80" y="85" fill="#fca5a5" font-size="12">Unknown unknowns – early Discovery and real life constraints</text>
         <g>
-            <circle cx="260" cy="345" r="8" fill="#fb7185" class="animate-soft-pulse"></circle>
-            <circle cx="310" cy="355" r="6" fill="#fb7185" class="animate-soft-pulse" style="animation-delay:0.3s"></circle>
-            <circle cx="290" cy="375" r="7" fill="#fb7185" class="animate-soft-pulse" style="animation-delay:0.6s"></circle>
-            <text x="248" y="330" fill="#fecaca" font-size="10">Stressors</text>
+            <circle cx="260" cy="330" r="8" fill="#fb7185" class="animate-soft-pulse"></circle>
+            <circle cx="310" cy="342" r="6" fill="#fb7185" class="animate-soft-pulse" style="animation-delay:0.3s"></circle>
+            <circle cx="290" cy="360" r="7" fill="#fb7185" class="animate-soft-pulse" style="animation-delay:0.6s"></circle>
+            <text x="248" y="314" fill="#fecaca" font-size="10">Stressors</text>
         </g>`;
 
     const svg = `
@@ -200,6 +216,9 @@ function wowSetMode(mode) {
     loopsLayer.classList.add('opacity-0');
     residualityLayer.classList.add('opacity-0');
 
+    // Hide all individual loops by default
+    document.querySelectorAll('.wow-loop').forEach(loop => loop.classList.add('hidden'));
+
     const modes = {
         default: {
             title: 'Three parallel tracks',
@@ -208,12 +227,20 @@ function wowSetMode(mode) {
         insight: {
             title: 'Insight loop – Operations → Discovery',
             desc: 'Ops brings production reality back into Discovery. Incidents, data, and behavior refine assumptions.',
-            layer: loopsLayer
+            layer: loopsLayer,
+            loops: ['insight']
         },
         stability: {
             title: 'Stability loop – Delivery ↔ Operations',
             desc: 'Delivery and Ops collaborate to keep error budgets healthy and services resilient.',
-            layer: loopsLayer
+            layer: loopsLayer,
+            loops: ['stability']
+        },
+        feasibility: {
+            title: 'Feasibility loop – Delivery → Discovery',
+            desc: 'Delivery validates technical and operational feasibility; Discovery updates assumptions and scope.',
+            layer: loopsLayer,
+            loops: ['feasibility']
         },
         residuality: {
             title: 'Residuality view',
@@ -224,6 +251,11 @@ function wowSetMode(mode) {
 
     const cfg = modes[mode] || modes.default;
     if (cfg.layer) cfg.layer.classList.remove('opacity-0');
+    if (cfg.loops && cfg.loops.length) {
+        cfg.loops.forEach(id => {
+            document.querySelectorAll(`.wow-loop[data-loop="${id}"]`).forEach(el => el.classList.remove('hidden'));
+        });
+    }
     titleEl.textContent = cfg.title;
     descEl.textContent = cfg.desc;
 }
@@ -233,6 +265,53 @@ function wowShowDetail(track) {
     if (!info) return;
     document.getElementById('wow-overlay-title').textContent = info.title;
     document.getElementById('wow-overlay-desc').textContent = info.desc;
+}
+
+const wowSequences = {
+    discovery: {
+        color: TRACK_COLORS.discovery.base,
+        title: 'Discovery flow',
+        steps: [
+            'Frame problem with JTBD, context of use, constraints, and impact.',
+            'Map assumptions → hypotheses; design spikes to validate feasibility and viability.',
+            'Draft SLIs/SLOs and decision options; hand refined scope to Delivery.'
+        ]
+    },
+    delivery: {
+        color: TRACK_COLORS.delivery.base,
+        title: 'Delivery flow',
+        steps: [
+            'Select mode (greenfield, brownfield, strangler, firefighting); align on risk/pace.',
+            'Design architecture with fitness functions, observability, and paved roads.',
+            'Ship iteratively with feature flags; enable operability with tests and instrumentation.'
+        ]
+    },
+    operations: {
+        color: TRACK_COLORS.operations.base,
+        title: 'Operations flow',
+        steps: [
+            'Measure SLIs/SLOs, error budgets, and user behavior in production.',
+            'Detect, triage, and resolve incidents; route signals to Discovery and Delivery.',
+            'Run experiments and resilience tests; feed learnings into the next discovery slice.'
+        ]
+    }
+};
+
+function wowShowSequence(track) {
+    const panel = document.getElementById('wow-sequence-overlay');
+    const title = document.getElementById('wow-sequence-title');
+    const list = document.getElementById('wow-sequence-list');
+    const data = wowSequences[track];
+    if (!panel || !data) return;
+    panel.style.display = 'block';
+    panel.style.borderLeftColor = data.color;
+    title.textContent = data.title;
+    list.innerHTML = data.steps.map(step => `<li>${step}</li>`).join('');
+}
+
+function hideWowSequence() {
+    const panel = document.getElementById('wow-sequence-overlay');
+    if (panel) panel.style.display = 'none';
 }
 
 // ===============================
@@ -268,7 +347,7 @@ const pomConfig = {
             from: { x: 500, y: 220 },
             cp: { x: 580, y: 320 },
             to: { x: 500, y: 430 },
-            color: TRACK_COLORS.delivery.base,
+            color: '#22d3ee',
             label: 'Stability loop (Ops → Delivery)',
             text: { x: 520, y: 320 }
         }
@@ -286,7 +365,9 @@ function buildPomDiagram() {
         </g>`).join('');
 
     const loops = pomConfig.loops.map(loop => {
-        const markerId = loop.color === TRACK_COLORS.operations.base ? 'pom-arrow-pink' : 'pom-arrow-green';
+        let markerId = 'pom-arrow-green';
+        if (loop.id === 'insight') markerId = 'pom-arrow-pink';
+        if (loop.id === 'stability') markerId = 'pom-arrow-cyan';
         return `
         <g>
             <path d="M ${loop.from.x},${loop.from.y} Q ${loop.cp.x},${loop.cp.y} ${loop.to.x},${loop.to.y}" fill="none" stroke="${loop.color}" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#${markerId})">
@@ -371,6 +452,9 @@ function buildPomDiagram() {
             </marker>
             <marker id="pom-arrow-green" markerWidth="14" markerHeight="14" refX="12" refY="5" orient="auto" markerUnits="userSpaceOnUse">
                 <path d="M0,0 L0,10 L12,5 z" fill="#34d399"></path>
+            </marker>
+            <marker id="pom-arrow-cyan" markerWidth="14" markerHeight="14" refX="12" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,0 L0,10 L12,5 z" fill="#22d3ee"></path>
             </marker>
             <linearGradient id="pom-grad-discovery" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.16"></stop>
@@ -716,6 +800,47 @@ const contextStressModel = {
     }
 };
 
+// Context ownership model (layers, dependencies, friction)
+const ctxExecSummary = {
+    lastUpdated: '2025-12-05',
+    ownershipClarity: 'High: all layers and bounded contexts have nominated owners',
+    keyDependencies: [
+        'CommerceFlowContext → Inventory & Order Routing (Ops Stream)',
+        'VisionProfileContext → Data Platform (contracts for RX + PoS events)',
+        'NewPoS & Omnichannel → Identity Platform (SSO, permissions)',
+        'ManufacturingOperationsContext → LogisticsContext (handoff traceability)'
+    ],
+    topFriction: [
+        'Inventory sync and variant restriction mismatch between Odoo and PoS',
+        'Lab integration retry loops from Odoo jobs',
+        'Identity Platform documentation drift (PoS auth, permissions)',
+        'Cross-layer incident escalation path unclear (PoS → Odoo → Lab → Logistics)'
+    ],
+    contactForUpdates: 'devex@galileo-platform.io'
+};
+
+const ctxLayers = [
+    { id: 'l5', name: 'Layer 5 · Core Business Value Streams', purpose: 'Stream-aligned teams owning end-to-end value.', owner: 'Omnichannel · Acquisition & Content · Retail (PoS) · Ops (Manufacturing + Logistics + Lab) · Fintech', contact: 'mailto:devex@galileo-platform.io', engagement: 'Intake board per stream; weekly triad syncs; escalate via #ops-war-room', frictionStatus: 'medium', lastUpdated: '2025-12-05' },
+    { id: 'l4', name: 'Layer 4 · Transversal Operational Services', purpose: 'Shared capabilities for Inventory, Manufacturing, Logistics.', owner: 'Ops Stream (Manufacturing + Logistics)', contact: 'mailto:ops@galileo-platform.io', engagement: 'Domain SLAs, service intake, exceptions via incident board', frictionStatus: 'medium', lastUpdated: '2025-12-05' },
+    { id: 'l3', name: 'Layer 3 · Enabling Capabilities', purpose: 'Design, Quality Enablement, Architecture/Staff+.', owner: 'Design & UX Enablement · Delivery & Quality Enablement · Staff+ Engineering', contact: 'mailto:enablement@galileo-platform.io', engagement: 'Facilitation mode, time-boxed interventions, architecture reviews', frictionStatus: 'low', lastUpdated: '2025-12-05' },
+    { id: 'l2', name: 'Layer 2 · Data Platform', purpose: 'Data contracts, lineage, governance, BI models.', owner: 'Data Platform Team (Ramon Rosales)', contact: 'mailto:data@galileo-platform.io', engagement: 'Contract reviews, paved-road templates, lineage validation', frictionStatus: 'medium', lastUpdated: '2025-12-05' },
+    { id: 'l1', name: 'Layer 1 · Technical Platform', purpose: 'Infrastructure, CI/CD, Identity, Observability, DevSecOps.', owner: 'Technical Platform Team (Angél Torquemada + DevSecOps)', contact: 'mailto:platform@galileo-platform.io', engagement: 'Paved roads, RFCs for new patterns, security reviews', frictionStatus: 'low', lastUpdated: '2025-12-05' }
+];
+
+const ctxDependencies = [
+    { id: 'dep-1', source: 'BrandExperienceContext', target: 'Identity Platform', expectation: 'Unified SSO for ecom and PoS; 99.9% auth uptime', owner: 'Technical Platform Team' },
+    { id: 'dep-2', source: 'CommerceFlowContext', target: 'Inventory & Order Routing (Ops)', expectation: 'Sync accuracy for checkout/PoS; <5s lag', owner: 'Ops Stream' },
+    { id: 'dep-3', source: 'VisionProfileContext', target: 'Data Platform', expectation: 'RX + PoS events under contract; lineage visible', owner: 'Data Platform Team' },
+    { id: 'dep-4', source: 'ManufacturingOperationsContext', target: 'LogisticsContext', expectation: 'Traceable handoff; 98% on-time dispatch', owner: 'Ops Stream' }
+];
+
+const ctxFrictionIndicators = [
+    { id: 'fx-1', component: 'InventoryCapability', severity: 'high', status: 'open', description: 'Variant restriction mismatch + sync latency between Odoo and PoS during peaks.', owner: 'Ops Stream', action: 'File via Ops intake; escalate via #ops-war-room', contact: 'mailto:ops@galileo-platform.io' },
+    { id: 'fx-2', component: 'ManufacturingOperationsContext', severity: 'medium', status: 'in-progress', description: 'Odoo → lab equipment retry loops; state machine inconsistencies.', owner: 'Lab Services Team', action: 'Track in incident board; mitigation in progress', contact: 'mailto:lab@galileo-platform.io' },
+    { id: 'fx-3', component: 'Identity Platform', severity: 'low', status: 'open', description: 'Outdated PoS auth/permission paved-road docs.', owner: 'Technical Platform Team', action: 'Open doc PR or ping #devex', contact: 'mailto:platform@galileo-platform.io' },
+    { id: 'fx-4', component: 'Data Contracts', severity: 'medium', status: 'open', description: 'Missing RX lineage for two flows; PoS events not standardized.', owner: 'Data Platform Team', action: 'Contract review required before next release', contact: 'mailto:data@galileo-platform.io' }
+];
+
 function getModeConfig(mode) {
     const configs = {
         adaptive: { label: 'Adaptive', color: 'bg-emerald-500', border: 'border-emerald-500/40', text: 'text-emerald-200' },
@@ -759,6 +884,86 @@ function renderContextStressGrid() {
             </div>`;
         container.appendChild(card);
     });
+}
+
+function severityClass(sev) {
+    const map = { low: 'low', medium: 'medium', high: 'high' };
+    return map[sev] || 'medium';
+}
+
+function renderContextOwnership() {
+    const summaryBody = document.getElementById('ctx-summary-body');
+    const summaryBadge = document.querySelector('#ctx-exec-summary .ctx-badge');
+    const layersList = document.getElementById('ctx-layers-list');
+    const depsList = document.getElementById('ctx-dependencies-list');
+    const frictionList = document.getElementById('ctx-friction-list');
+
+    if (summaryBody && ctxExecSummary) {
+        summaryBody.innerHTML = `
+            <p class="text-sm text-slate-200 mb-2">${ctxExecSummary.ownershipClarity}</p>
+            <p class="text-sm text-slate-300 mb-1"><strong>Key dependencies</strong></p>
+            <ul class="ctx-list">
+                ${ctxExecSummary.keyDependencies.map(item => `<li class="ctx-list-item">${item}</li>`).join('')}
+            </ul>
+            <p class="text-sm text-slate-300 mt-3 mb-1"><strong>Top friction</strong></p>
+            <ul class="ctx-list">
+                ${ctxExecSummary.topFriction.map(item => `<li class="ctx-list-item">${item}</li>`).join('')}
+            </ul>
+            <p class="text-xs text-slate-400 mt-3">Contact for updates: <a class="underline" href="mailto:${ctxExecSummary.contactForUpdates}">${ctxExecSummary.contactForUpdates}</a></p>
+        `;
+        if (summaryBadge) summaryBadge.textContent = `Last updated: ${ctxExecSummary.lastUpdated}`;
+    }
+
+    if (layersList) {
+        layersList.innerHTML = ctxLayers.map(layer => `
+            <div class="ctx-list-item">
+                <div class="flex items-center justify-between gap-2">
+                    <div>
+                        <p class="font-semibold text-slate-100 text-sm">${layer.name}</p>
+                        <p class="text-xs text-slate-400">${layer.purpose}</p>
+                    </div>
+                    <span class="ctx-badge">${layer.frictionStatus === 'low' ? 'Low friction' : layer.frictionStatus === 'medium' ? 'Attention needed' : 'Check'}</span>
+                </div>
+                <div class="ctx-list-meta">
+                    <span>Owner: ${layer.owner}</span>
+                    <span><a class="underline" href="${layer.contact}">Contact</a></span>
+                    <span>Engagement: ${layer.engagement}</span>
+                    <span>Updated: ${layer.lastUpdated}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    if (depsList) {
+        depsList.innerHTML = ctxDependencies.map(dep => `
+            <div class="ctx-list-item">
+                <div class="flex items-center justify-between gap-2">
+                    <p class="font-semibold text-slate-100 text-sm">${dep.source} → ${dep.target}</p>
+                    <span class="ctx-badge">Owner: ${dep.owner}</span>
+                </div>
+                <p class="text-xs text-slate-300">${dep.expectation}</p>
+            </div>
+        `).join('');
+    }
+
+    if (frictionList) {
+        frictionList.innerHTML = ctxFrictionIndicators.map(fr => `
+            <div class="ctx-list-item">
+                <div class="flex items-center justify-between gap-2">
+                    <div>
+                        <p class="font-semibold text-slate-100 text-sm">${fr.component}</p>
+                        <p class="text-xs text-slate-400">Owner: ${fr.owner} · Status: ${fr.status}</p>
+                    </div>
+                    <span class="ctx-severity ${severityClass(fr.severity)}">${fr.severity.toUpperCase()}</span>
+                </div>
+                <p class="text-sm text-slate-200">${fr.description}</p>
+                <div class="ctx-list-meta">
+                    <span>Action: ${fr.action}</span>
+                    <span><a class="underline" href="${fr.contact}">Contact/Intake</a></span>
+                </div>
+            </div>
+        `).join('');
+    }
 }
 
 // ===============================
@@ -1446,6 +1651,7 @@ window.addEventListener('load', () => {
     buildContextMap();
     renderJourneyTimelines();
     renderContextStressGrid();
+    renderContextOwnership();
     initReveal();
     bindAnchors();
     bindTooltips();

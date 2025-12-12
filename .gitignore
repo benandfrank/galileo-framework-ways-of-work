@@ -1,0 +1,27 @@
+# OS/system
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+
+# IDE/editors
+.vscode/
+.idea/
+
+# Node/yarn (in case tooling is added)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build/output
+dist/
+build/
+coverage/
+
+# Environment/config
+.env*

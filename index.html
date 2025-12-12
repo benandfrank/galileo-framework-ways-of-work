@@ -49,22 +49,60 @@
 
         <section class="py-16 px-4 bg-[#020617]" id="wow-diagram-section">
             <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl md:text-4xl font-semibold mb-2">Continuous Flow Engine</h2>
-                    <p class="text-slate-300 max-w-2xl mx-auto text-sm md:text-base">Discovery, Delivery, and Operations are three parallel tracks. They are never sequential. Use the modes below to highlight specific feedback loops or the Residuality lens.</p>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-2">Continuous Flow Engine</h2>
+                <p class="text-slate-300 max-w-2xl mx-auto text-sm md:text-base">Discovery, Delivery, and Operations are three parallel tracks. They are never sequential. Use the modes below to highlight specific feedback loops or the Residuality lens.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="glass-panel rounded-2xl p-4 border border-blue-500/25 text-sm">
+                    <p class="text-xs uppercase tracking-wide text-blue-200 mb-1 flex items-center gap-2"><span class="material-symbols-outlined text-xs">info</span>How to read this view</p>
+                    <ul class="text-slate-200 space-y-1">
+                        <li>• Tracks run in parallel; use mode chips to surface loops or residuality.</li>
+                        <li>• Hover/click a track to see its role and update the info overlay.</li>
+                        <li>• Blue = Discovery, Green = Delivery, Rose = Operations. Loops animate in the selected mode.</li>
+                        <li>• Keyboard: Tab to a track, Enter/Space to toggle the overlay.</li>
+                    </ul>
                 </div>
-                <div class="flex flex-wrap justify-center gap-3 mb-7">
-                    <button onclick="wowSetMode('default')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-800 text-slate-200 text-xs md:text-sm border border-slate-600">Standard flow</button>
-                    <button onclick="wowSetMode('insight')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-blue-200 text-xs md:text-sm border border-blue-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">psychology</span>Insight loop</button>
-                    <button onclick="wowSetMode('stability')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-emerald-200 text-xs md:text-sm border border-emerald-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">health_and_safety</span>Stability loop</button>
-                    <button onclick="wowSetMode('residuality')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-purple-200 text-xs md:text-sm border border-purple-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">visibility</span>Residuality view</button>
+                <div class="glass-panel rounded-2xl p-4 border border-emerald-500/25 text-sm">
+                    <p class="text-xs uppercase tracking-wide text-emerald-200 mb-1 flex items-center gap-2"><span class="material-symbols-outlined text-xs">build</span>DevEx — tweak fast</p>
+                    <ul class="text-slate-200 space-y-1">
+                        <li>• Diagram config in `script.js` → `wowConfig` (tracks, loops, residual zones).</li>
+                        <li>• Journey steps in `journeyStepDetails`; modal auto-renders signals and exceptions.</li>
+                        <li>• Colors come from `TRACK_COLORS`; update once and they sync across views.</li>
+                        <li>• Open `index.html` locally to validate changes—no build needed.</li>
+                    </ul>
                 </div>
-                <div class="relative w-full max-w-7xl mx-auto glass-panel rounded-3xl overflow-hidden shadow-xl diagram-shell">
-                    <div id="wow-info-overlay" class="absolute top-3 right-3 max-w-xs bg-slate-900/95 glass-panel rounded-xl p-4 border border-slate-700 z-20">
-                        <h3 id="wow-overlay-title" class="text-sm font-semibold text-slate-50 mb-1">Three parallel tracks</h3>
-                        <p id="wow-overlay-desc" class="text-xs text-slate-300 leading-relaxed">Discovery, Delivery, and Operations run in parallel. They exchange information through short loops, not through big handoffs.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-3 mb-7">
+                <button onclick="wowSetMode('default')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-800 text-slate-200 text-xs md:text-sm border border-slate-600">Standard flow</button>
+                <button onclick="wowSetMode('insight')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-blue-200 text-xs md:text-sm border border-blue-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">psychology</span>Insight loop</button>
+                <button onclick="wowSetMode('feasibility')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-emerald-200 text-xs md:text-sm border border-emerald-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">link</span>Feasibility loop</button>
+                <button onclick="wowSetMode('stability')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-emerald-200 text-xs md:text-sm border border-emerald-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">health_and_safety</span>Stability loop</button>
+                <button onclick="wowSetMode('residuality')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-purple-200 text-xs md:text-sm border border-purple-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">visibility</span>Residuality view</button>
+            </div>
+            <div class="flex flex-wrap justify-center gap-3 mb-4 text-[12px] text-slate-300">
+                <span class="journey-chip tag-blue flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Discovery</span>
+                <span class="journey-chip tag-green flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Delivery</span>
+                <span class="journey-chip tag-rose flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>Operations</span>
+            </div>
+            <div class="flex flex-wrap justify-center gap-2 mb-4">
+                <button class="wow-track-btn" onclick="wowShowSequence('discovery')">Discovery steps</button>
+                <button class="wow-track-btn" onclick="wowShowSequence('delivery')">Delivery steps</button>
+                <button class="wow-track-btn" onclick="wowShowSequence('operations')">Operations steps</button>
+            </div>
+            <div class="relative w-full max-w-7xl mx-auto glass-panel rounded-3xl overflow-hidden shadow-xl diagram-shell">
+                <div id="wow-sequence-overlay" class="glass-panel rounded-2xl p-4 border-l-4 border-blue-500 absolute top-3 left-3 max-w-sm z-30" style="display:none;">
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <h3 id="wow-sequence-title" class="text-sm font-semibold text-slate-100">Track flow</h3>
+                        <button aria-label="Close track flow" class="text-slate-400 hover:text-slate-200" onclick="hideWowSequence()"><span class="material-symbols-outlined text-sm">close</span></button>
                     </div>
-                    <div id="wow-flow-diagram" class="w-full h-full"></div>
+                    <ol id="wow-sequence-list" class="list-decimal list-inside text-xs text-slate-200 space-y-1"></ol>
+                </div>
+                <div id="wow-info-overlay" class="absolute top-3 right-3 max-w-xs bg-slate-900/95 glass-panel rounded-xl p-4 border border-slate-700 z-20">
+                    <h3 id="wow-overlay-title" class="text-sm font-semibold text-slate-50 mb-1">Three parallel tracks</h3>
+                    <p id="wow-overlay-desc" class="text-xs text-slate-300 leading-relaxed">Discovery, Delivery, and Operations run in parallel. They exchange information through short loops, not through big handoffs.</p>
+                </div>
+                <div id="wow-flow-diagram" class="w-full h-full"></div>
                 </div>
                 <div class="mt-4 flex justify-between text-[11px] text-slate-400">
                     <span>Figure 1 – Continuous DDO flow for Galileo Platform</span>
@@ -146,6 +184,13 @@
                         <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-rose-500"></span> Operations</span>
                         <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-amber-400"></span> Emotional peak</span>
                     </div>
+                </div>
+                <div class="mt-4 text-sm text-slate-300 glass-panel rounded-2xl p-4 border border-slate-700/40">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="material-symbols-outlined text-slate-200 text-sm">psychology</span>
+                        <p class="font-semibold text-slate-100">How to use</p>
+                    </div>
+                    <p>Tap any card to open the modal with 4ojos (customer) and casimirx (operator) perspectives, signals, exceptions, and DDO contribution. The timeline is scrollable; on mobile it appears as a vertical accordion. Keyboard users: Tab to a card, press Enter or Space.</p>
                 </div>
             </div>
         </section>
@@ -349,6 +394,76 @@
                         <div class="mt-4 p-3 bg-slate-900/50 rounded-lg border border-slate-700/50"><p class="text-xs text-slate-400"><span class="text-rose-400 font-medium">Feedback Loops:</span> <span id="ctx-detail-loops">—</span></p></div>
                     </div>
                 </div>
+                <section class="mt-10" id="context-ownership">
+                    <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-semibold text-slate-50">Ownership, dependencies, and friction</h3>
+                            <p class="text-sm text-slate-400">One glance to see who owns each layer, how links flow, and how to act on friction.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-[11px] text-slate-400">
+                            <span class="ctx-pill ctx-pill-ownership">Ownership</span>
+                            <span class="ctx-pill ctx-pill-dependency">Dependency</span>
+                            <span class="ctx-pill ctx-pill-friction">Friction</span>
+                        </div>
+                    </div>
+                    <div class="ctx-legend glass-panel">
+                        <div>
+                            <p class="ctx-eyebrow">Legend</p>
+                            <ul class="ctx-legend-list">
+                                <li><span class="ctx-dot ctx-pill-ownership"></span> Owner & contact (team/role, engagement)</li>
+                                <li><span class="ctx-dot ctx-pill-dependency"></span> Dependency path (upstream/downstream, expectation/SLA)</li>
+                                <li><span class="ctx-dot ctx-pill-friction"></span> Friction indicator (severity, owner, action path)</li>
+                            </ul>
+                        </div>
+                        <a href="#context-ownership" class="ctx-badge link-badge">Jump to ownership</a>
+                    </div>
+                    <div class="ctx-grid">
+                        <article class="ctx-card glass-panel" id="ctx-exec-summary">
+                            <div class="ctx-card-header">
+                                <div>
+                                    <p class="ctx-eyebrow">Executive summary</p>
+                                    <h4 class="ctx-title">Snapshot</h4>
+                                </div>
+                                <span class="ctx-badge">Last updated: —</span>
+                            </div>
+                            <div class="ctx-body" id="ctx-summary-body">Ownership clarity, key dependencies, and top friction hotspots will render here.</div>
+                        </article>
+                        <article class="ctx-card glass-panel" id="ctx-layers-panel">
+                            <div class="ctx-card-header">
+                                <div>
+                                    <p class="ctx-eyebrow">Layers</p>
+                                    <h4 class="ctx-title">Ownership & engagement</h4>
+                                </div>
+                                <span class="ctx-badge">Layers</span>
+                            </div>
+                            <div class="ctx-body" id="ctx-layers-list">Loading layers...</div>
+                        </article>
+                        <article class="ctx-card glass-panel" id="ctx-dependencies-panel">
+                            <div class="ctx-card-header">
+                        <div>
+                            <p class="ctx-eyebrow">Dependencies</p>
+                            <h4 class="ctx-title">Upstream/Downstream</h4>
+                        </div>
+                        <span class="ctx-badge">Links</span>
+                    </div>
+                            <div class="ctx-nav">
+                                <a class="ctx-nav-chip" href="#sta-context-map">Open map</a>
+                                <a class="ctx-nav-chip" href="#context-ownership">Ownership cards</a>
+                            </div>
+                            <div class="ctx-body" id="ctx-dependencies-list">Dependency map will render here.</div>
+                        </article>
+                        <article class="ctx-card glass-panel" id="ctx-friction-panel">
+                            <div class="ctx-card-header">
+                                <div>
+                                    <p class="ctx-eyebrow">Friction & Actions</p>
+                                    <h4 class="ctx-title">Report & Resolve</h4>
+                                </div>
+                                <span class="ctx-badge">Signals</span>
+                            </div>
+                            <div class="ctx-body" id="ctx-friction-list">Friction indicators and actions will render here.</div>
+                        </article>
+                    </div>
+                </section>
             </div>
         </section>
     </div>

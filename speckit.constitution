@@ -1,0 +1,9 @@
+# Principles
+- UX & visual excellence: design for clarity and delight; use purposeful typography, balanced spacing, and disciplined color/contrast that meets WCAG AA; prefer intentional motion that supports comprehension.
+- Consistency first: use shared tokens, grids, and component patterns; keep states aligned (hover/focus/active/disabled) and cross-device behavior predictable.
+- Semantic structure: HTML defines meaning and hierarchy with proper landmarks, form labels, and ARIA only when semantics are insufficient; avoid presentational markup.
+- Separation of concerns: CSS owns layout and styling (no inline styles except critical overrides); JS owns behavior and state; avoid mixing structure/styling/behavior in the same layer.
+- Standards & accessibility: follow W3C specs for markup, forms, media, and navigation; default to progressive enhancement; ensure keyboard operability and clear focus management.
+- Performance discipline: set budgets for LCP/TTI/CLS; ship minimal, tree-shaken JS; defer non-critical work; optimize and lazy-load media; leverage caching and HTTP/2/3 best practices.
+- Code quality: favor readable, composable components; DRY without over-abstraction; validate with linters/tests; document edge cases and rationale for non-obvious decisions.
+- Testing & monitoring: cover critical user paths and accessibility checks in CI; guard against regressions in rendering, responsiveness, and interactions; monitor real-user metrics and fix regressions quickly.

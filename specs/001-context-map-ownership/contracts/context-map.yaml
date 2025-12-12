@@ -1,0 +1,216 @@
+openapi: 3.1.0
+info:
+  title: Context Map and Ownership
+  version: 0.1.0
+paths:
+  /context-map:
+    get:
+      summary: Retrieve context map overview with layers, ownership, dependencies, and friction indicators
+      responses:
+        '200':
+          description: Context map overview
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  layers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Layer'
+                  executiveSummary:
+                    $ref: '#/components/schemas/ExecutiveSummary'
+  /layers:
+    get:
+      summary: List layers with ownership and friction cues
+      responses:
+        '200':
+          description: Layers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Layer'
+  /layers/{id}:
+    get:
+      summary: Get a single layer with components and dependencies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Layer detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Layer'
+  /components/{id}:
+    get:
+      summary: Get component/service details with owner, dependencies, and friction indicators
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Component detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Component'
+  /friction-reports:
+    post:
+      summary: Submit a friction report or improvement suggestion tied to a layer/component
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FrictionReportInput'
+      responses:
+        '202':
+          description: Report accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrictionReport'
+components:
+  schemas:
+    Layer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        purpose:
+          type: string
+        owner:
+          $ref: '#/components/schemas/Owner'
+        engagement:
+          type: string
+          description: How to engage (contact path, SLA cues)
+        dependencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dependency'
+        frictionIndicators:
+          type: array
+          items:
+            $ref: '#/components/schemas/FrictionIndicator'
+        lastUpdated:
+          type: string
+          format: date
+    Component:
+      type: object
+      properties:
+        id:
+          type: string
+        layerId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        owner:
+          $ref: '#/components/schemas/Owner'
+        dependencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dependency'
+        frictionIndicators:
+          type: array
+          items:
+            $ref: '#/components/schemas/FrictionIndicator'
+        lastUpdated:
+          type: string
+          format: date
+    Owner:
+      type: object
+      properties:
+        team:
+          type: string
+        role:
+          type: string
+        contact:
+          type: string
+        engagementRules:
+          type: string
+    Dependency:
+      type: object
+      properties:
+        sourceId:
+          type: string
+        targetId:
+          type: string
+        expectation:
+          type: string
+        notes:
+          type: string
+    FrictionIndicator:
+      type: object
+      properties:
+        id:
+          type: string
+        description:
+          type: string
+        severity:
+          type: string
+          enum: [info, warn, critical]
+        status:
+          type: string
+          enum: [open, in-progress, resolved]
+        owner:
+          $ref: '#/components/schemas/Owner'
+    ExecutiveSummary:
+      type: object
+      properties:
+        ownershipClarity:
+          type: string
+          enum: [high, medium, low]
+        keyDependencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dependency'
+        topFriction:
+          type: array
+          items:
+            $ref: '#/components/schemas/FrictionIndicator'
+        lastUpdated:
+          type: string
+          format: date
+        contactForUpdates:
+          type: string
+    FrictionReportInput:
+      type: object
+      required: [componentId, description, reporter]
+      properties:
+        componentId:
+          type: string
+        layerId:
+          type: string
+        description:
+          type: string
+        severity:
+          type: string
+          enum: [info, warn, critical]
+        reporter:
+          type: string
+        contact:
+          type: string
+    FrictionReport:
+      allOf:
+        - $ref: '#/components/schemas/FrictionReportInput'
+        - type: object
+          properties:
+            id:
+              type: string
+            status:
+              type: string
+              enum: [submitted, acknowledged]
