@@ -1552,13 +1552,13 @@ const roleActivitiesData = {
         operations: { practices: ['On-call', 'Incident response', 'Perf tuning'], techniques: ['Observability (traces/logs/metrics)', 'Chaos drills', 'Runbooks'], tools: ['Grafana', 'PagerDuty', 'Sentry'] }
     },
     platform: {
-        name: 'Platform Team', icon: 'cloud', color: 'cyan', teamType: 'Platform',
+        name: 'Platform Engineer', icon: 'cloud', color: 'cyan', teamType: 'Platform',
         discovery: { practices: ['Developer pain research', 'Platform roadmap'], techniques: ['Platform as product', 'Self-service design'], tools: ['Backstage', 'Notion', 'Surveys'] },
         delivery: { practices: ['IaC & pipelines', 'Security guardrails', 'Docs'], techniques: ['GitOps', 'Policy as code', 'Golden paths'], tools: ['Terraform', 'ArgoCD', 'GitHub Actions'] },
         operations: { practices: ['Reliability', 'FinOps', 'Security posture'], techniques: ['Toil reduction', 'Capacity mgmt', 'Automated compliance'], tools: ['Datadog', 'Snyk', 'Kubecost'] }
     },
     data: {
-        name: 'Data Platform', icon: 'database', color: 'cyan', teamType: 'Platform',
+        name: 'Data Engineer', icon: 'database', color: 'cyan', teamType: 'Platform',
         discovery: { practices: ['Data domain discovery', 'Contract design'], techniques: ['Semantic layer planning', 'Mesh principles'], tools: ['Data catalog', 'FigJam', 'Notion'] },
         delivery: { practices: ['Pipelines', 'Quality gates', 'Docs'], techniques: ['Medallion architecture', 'dbt modeling', 'Schema evolution'], tools: ['dbt', 'Airflow', 'Great Expectations'] },
         operations: { practices: ['Freshness SLAs', 'Anomaly detection', 'Cost management'], techniques: ['Lineage tracking', 'Data observability'], tools: ['Datadog', 'Monte Carlo', 'Datafold'] }
@@ -1570,13 +1570,13 @@ const roleActivitiesData = {
         operations: { practices: ['Reliability posture', 'Cross-domain incidents'], techniques: ['Resilience patterns', 'Chaos strategy'], tools: ['Grafana', 'Gremlin', 'Litmus'] }
     },
     servicedesk: {
-        name: 'Service Desk', icon: 'support_agent', color: 'pink', teamType: 'Stream-Aligned',
+        name: 'Technical Support', icon: 'support_agent', color: 'pink', teamType: 'Stream-Aligned',
         discovery: { practices: ['Issue pattern analysis', 'Voice of customer'], techniques: ['Root cause categorization', 'Trend identification'], tools: ['Zendesk', 'Intercom', 'Sheets'] },
         delivery: { practices: ['Runbooks', 'KB updates', 'Training'], techniques: ['Escalation paths', 'Self-service enablement'], tools: ['Confluence', 'Guru', 'Notion'] },
         operations: { practices: ['Triage', 'Incident escalation', 'Communication'], techniques: ['First-response optimization', 'SLA monitoring'], tools: ['PagerDuty', 'Statuspage', 'Slack'] }
     },
     qa: {
-        name: 'QA Enablement', icon: 'verified', color: 'purple', teamType: 'Enabling',
+        name: 'Quality Engineer', icon: 'verified', color: 'purple', teamType: 'Enabling',
         discovery: { practices: ['Risk assessment', 'Testability reviews'], techniques: ['Risk-based testing', 'Quality gates'], tools: ['TestRail', 'Notion', 'Xray'] },
         delivery: { practices: ['Test automation', 'Frameworks', 'Coaching'], techniques: ['BDD/TDD', 'Contract testing', 'Visual regression'], tools: ['Playwright', 'Cypress', 'Pact'] },
         operations: { practices: ['Quality metrics', 'Bug pattern analysis'], techniques: ['Defect clustering', 'Escape analysis'], tools: ['Sentry', 'Datadog', 'Grafana'] }
