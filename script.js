@@ -1001,7 +1001,7 @@ const contextData = {
     fashion: {
         name: 'FashionEyewearContext',
         layer: 'L5 · Core Business',
-        team: 'Inspiration & Trust Team',
+        team: 'Customer Journey Stream',
         topology: 'Stream-Aligned',
         discovery: 'Catalog strategy, trend analysis, brand positioning',
         delivery: 'Catalog UX, recommendations, content workflows',
@@ -1011,7 +1011,7 @@ const contextData = {
     commerce: {
         name: 'CommerceFlowContext',
         layer: 'L5 · Core Business',
-        team: 'Commerce Flow Team',
+        team: 'Customer Journey Stream',
         topology: 'Stream-Aligned',
         discovery: 'Journey mapping, checkout assumptions, payment constraints',
         delivery: 'Cart, checkout, PoS integration, feature flags',
@@ -1021,7 +1021,7 @@ const contextData = {
     vision: {
         name: 'VisionProfileContext',
         layer: 'L5 · Core Business',
-        team: 'Vision Profile Team',
+        team: 'Customer Journey Stream',
         topology: 'Stream-Aligned',
         discovery: 'Clinical hypotheses, constraints from lab and compliance',
         delivery: 'RX capture flows, data contracts, validation rules',
@@ -1031,7 +1031,7 @@ const contextData = {
     care: {
         name: 'CustomerCareContext',
         layer: 'L5 · Core Business',
-        team: 'Customer Care Team',
+        team: 'Customer Journey Stream',
         topology: 'Stream-Aligned',
         discovery: 'Voice of customer, care journeys, escalation mapping',
         delivery: 'Service tooling, runbooks, omnichannel integrations',
@@ -1041,7 +1041,7 @@ const contextData = {
     manufacturing: {
         name: 'ManufacturingOperationsContext',
         layer: 'L4 · Transversal',
-        team: 'Lab Services Stream Team',
+        team: 'Fulfillment & Lifecycle Stream',
         topology: 'Complicated Subsystem',
         discovery: 'Throughput constraints, shift patterns, machine capability',
         delivery: 'MES integrations, scheduling, quality control',
@@ -1051,7 +1051,7 @@ const contextData = {
     logistics: {
         name: 'LogisticsContext',
         layer: 'L4 · Transversal',
-        team: 'Logistics Stream Team',
+        team: 'Fulfillment & Lifecycle Stream',
         topology: 'Stream-Aligned',
         discovery: 'Routing constraints, carrier SLAs, promise-to-deliver dates',
         delivery: 'Fulfillment services, tracking, notifications',
@@ -1091,7 +1091,7 @@ const contextData = {
     workforce: {
         name: 'WorkforceContext',
         layer: 'L4 · Supporting',
-        team: 'Workforce Stream Team',
+        team: 'Enterprise Systems Enablement Stream',
         topology: 'Stream-Aligned',
         discovery: 'Hiring demand signals, shift planning hypotheses, role capability mapping',
         delivery: 'Scheduling services, staffing tools, access control, compliance workflows',
@@ -1101,7 +1101,7 @@ const contextData = {
     finance: {
         name: 'FinanceOpsContext',
         layer: 'L4 · Supporting',
-        team: 'Finance Ops Team',
+        team: 'Enterprise Systems Enablement Stream',
         topology: 'Stream-Aligned',
         discovery: 'Billing/payout assumptions, tax constraints, payment risk models',
         delivery: 'Invoicing services, reconciliation, fiscal integrations (Odoo/PoS)',
@@ -1111,7 +1111,7 @@ const contextData = {
     transversal: {
         name: 'Transversal Services Layer',
         layer: 'L4 · Supporting',
-        team: 'Transversal Services Core',
+        team: 'Foundational Services Stream',
         topology: 'Stream-Aligned + Complicated Subsystem',
         discovery: 'Cross-domain constraints, shared SLAs, integration risks',
         delivery: 'Shared services (identity, catalog, inventory), integration patterns',
