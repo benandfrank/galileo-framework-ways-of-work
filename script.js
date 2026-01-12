@@ -1042,7 +1042,7 @@ const contextData = {
         name: 'ManufacturingOperationsContext',
         layer: 'L4 · Transversal',
         team: 'Fulfillment & Lifecycle Stream',
-        topology: 'Complicated Subsystem',
+        topology: 'Stream-Aligned',
         discovery: 'Throughput constraints, shift patterns, machine capability',
         delivery: 'MES integrations, scheduling, quality control',
         operations: 'Queue depth, spoilage, machine downtime, takt time',
@@ -1318,7 +1318,7 @@ function buildContextMap() {
                 <text x="715" y="130" fill="white" font-size="10" font-weight="600" text-anchor="middle" transform="rotate(-90 715 130)">Manufacturing</text>
                 <text x="715" y="200" fill="white" font-size="10" font-weight="600" text-anchor="middle" transform="rotate(-90 715 200)">OperationsContext</text>
                 <circle cx="660" cy="50" r="8" fill="#dc2626" stroke="white" stroke-width="1.5"></circle>
-                <text x="660" y="54" fill="white" font-size="7" font-weight="700" text-anchor="middle">CS</text>
+                <text x="660" y="54" fill="white" font-size="8" font-weight="700" text-anchor="middle">SA</text>
             </g>
             <g id="ctx-logistics" class="cursor-pointer ctx-clickable" data-context="logistics">
                 <rect x="800" y="30" width="110" height="270" rx="8" fill="url(#ctx-grad-supporting)" stroke="#f87171" stroke-width="2"></rect>
@@ -1372,8 +1372,8 @@ function buildContextMap() {
                 <text x="25" y="24" fill="#93c5fd" font-size="9">Stream-Aligned</text>
 
                 <circle cx="10" cy="45" r="7" fill="#dc2626" stroke="white" stroke-width="1"></circle>
-                <text x="10" y="49" fill="white" font-size="6" font-weight="700" text-anchor="middle">CS</text>
-                <text x="25" y="49" fill="#fca5a5" font-size="9">Complicated Sub.</text>
+                <text x="10" y="49" fill="white" font-size="6" font-weight="700" text-anchor="middle">SA</text>
+                <text x="25" y="49" fill="#fca5a5" font-size="9">Stream-Aligned</text>
 
                 <circle cx="10" cy="70" r="7" fill="#4f46e5" stroke="white" stroke-width="1"></circle>
                 <text x="10" y="74" fill="white" font-size="6" font-weight="700" text-anchor="middle">PL</text>
