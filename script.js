@@ -92,9 +92,9 @@ const wowConfig = {
     width: 1200,
     height: 675,
     tracks: [
-        { id: 'discovery', label: 'A. Discovery · Clarify', y: 150, amplitude: 40, color: TRACK_COLORS.discovery },
-        { id: 'delivery', label: 'B. Delivery · Build', y: 337.5, amplitude: -40, color: TRACK_COLORS.delivery },
-        { id: 'operations', label: 'C. Operations · Prove', y: 525, amplitude: 40, color: TRACK_COLORS.operations }
+        { id: 'discovery', label: 'A. Discovery · Clarify', y: 150, pathId: 'discovery', color: TRACK_COLORS.discovery },
+        { id: 'delivery', label: 'B. Delivery · Build', y: 337.5, pathId: 'delivery', color: TRACK_COLORS.delivery },
+        { id: 'operations', label: 'C. Operations · Prove', y: 525, pathId: 'operations', color: TRACK_COLORS.operations }
     ],
     loops: [
         { id: 'insight', from: { x: 640, y: 505 }, cp: { x: 520, y: 337.5 }, to: { x: 640, y: 170 }, color: TRACK_COLORS.operations.base, label: 'Insight loop', marker: 'wow-arrow-pink', dash: '8 5', width: 2.5, text: { x: 610, y: 320 } },
@@ -122,9 +122,14 @@ const wowTrackInfo = {
     }
 };
 
-function trackPath(y, amplitude) {
-    return `M -120,${y} C 200,${y} 400,${y - amplitude} 600,${y} C 800,${y + amplitude} 1000,${y} 1320,${y}`;
-}
+const trackPaths = {
+    discovery: `M -120,150 C 200,100 400,200 600,150 C 800,100 1000,200 1320,150`,
+    delivery: `M -120,337.5 L 300,337.5 C 400,300 500,375 600,337.5 L 900,337.5 C 1000,300 1100,375 1200,337.5 L 1320,337.5`,
+    operations: `M -120,525 C 100,575 250,475 400,525 C 550,575 700,475 850,525 C 1000,575 1150,475 1320,525`,
+    'pom-discovery': `M -80,150 C 260,100 540,210 1280,150`,
+    'pom-delivery': `M -80,350 C 260,350 540,350 1280,350`,
+    'pom-operations': `M -80,550 C 260,600 540,500 1280,550`
+};
 
 function buildWowDiagram() {
     const container = document.getElementById('wow-flow-diagram');
@@ -165,8 +170,9 @@ function buildWowDiagram() {
 
     const tracks = wowConfig.tracks.map(track => `
         <g class="wow-track" data-track="${track.id}" role="button" aria-label="${track.label}" data-focusable="true" data-tooltip="${track.label}">
-            <path d="${trackPath(track.y, track.amplitude)}" fill="none" stroke="url(#wow-grad-${track.id})" stroke-width="64" stroke-opacity="0.25"></path>
-            <path d="${trackPath(track.y, track.amplitude)}" fill="none" stroke="${track.color.light}" stroke-width="3" stroke-dasharray="20 10" class="animate-flow-fast"></path>
+            <path d="${trackPaths[track.pathId]}" fill="none" stroke="${track.color.base}" stroke-width="40" stroke-opacity="0.2"></path>
+            <path d="${trackPaths[track.pathId]}" fill="none" stroke="url(#wow-grad-${track.id})" stroke-width="20" stroke-opacity="0.4"></path>
+            <path d="${trackPaths[track.pathId]}" fill="none" stroke="${track.color.light}" stroke-width="3" stroke-dasharray="20 10" class="animate-flow-fast"></path>
             <text x="90" y="${track.y - 42}" fill="${track.color.text}" font-size="20" font-weight="600">${track.label}</text>
         </g>`).join('');
 
@@ -319,9 +325,9 @@ function hideWowSequence() {
 // ===============================
 const pomConfig = {
     tracks: [
-        { id: 'discovery', y: 150, label: 'A. Discovery · Clarify', color: TRACK_COLORS.discovery },
-        { id: 'delivery', y: 350, label: 'B. Delivery · Build', color: TRACK_COLORS.delivery },
-        { id: 'operations', y: 550, label: 'C. Operations · Prove', color: TRACK_COLORS.operations }
+        { id: 'discovery', pathId: 'pom-discovery', y: 150, label: 'A. Discovery · Clarify', color: TRACK_COLORS.discovery },
+        { id: 'delivery', pathId: 'pom-delivery', y: 350, label: 'B. Delivery · Build', color: TRACK_COLORS.delivery },
+        { id: 'operations', pathId: 'pom-operations', y: 550, label: 'C. Operations · Prove', color: TRACK_COLORS.operations }
     ],
     loops: [
         {
@@ -360,7 +366,9 @@ function buildPomDiagram() {
 
     const tracks = pomConfig.tracks.map(t => `
         <g class="pom-track" data-track="${t.id}" role="button" aria-label="${t.label}" data-focusable="true" data-tooltip="${t.label}">
-            <path d="${t.id === 'discovery' ? 'M -80,150 C 260,100 540,210 1280,150' : t.id === 'delivery' ? 'M -80,350 C 260,350 540,350 1280,350' : 'M -80,550 C 260,600 540,500 1280,550'}" stroke="url(#pom-grad-${t.id})" stroke-width="130" fill="none" filter="url(#pom-soft-glow)"></path>
+            <path d="${trackPaths[t.pathId]}" stroke="${t.color.base}" stroke-width="50" fill="none" filter="url(#pom-soft-glow)" opacity="0.2"></path>
+            <path d="${trackPaths[t.pathId]}" stroke="url(#pom-grad-${t.id})" stroke-width="25" fill="none" filter="url(#pom-soft-glow)"></path>
+            <path d="${trackPaths[t.pathId]}" stroke="${t.color.light}" stroke-width="2" fill="none" stroke-dasharray="15 15" class="animate-flow"></path>
             <text x="130" y="${t.y}" fill="${t.color.text}" font-size="22" font-weight="700">${t.label}</text>
         </g>`).join('');
 
@@ -1112,6 +1120,123 @@ const contextData = {
     }
 };
 
+// ===============================
+// Context Map Overlay Config
+// ===============================
+const contextMapOverlays = {
+    streamTeams: {
+        groups: [
+            {
+                id: 'customer-journey',
+                label: 'Customer Journey Stream',
+                contexts: ['fashion', 'commerce', 'vision', 'care'],
+                x: 60,
+                y: 30,
+                width: 550,
+                height: 270,
+                color: '#3b82f6',
+                borderColor: '#60a5fa'
+            },
+            {
+                id: 'fulfillment-lifecycle',
+                label: 'Fulfillment & Lifecycle Stream',
+                contexts: ['manufacturing', 'logistics'],
+                x: 640,
+                y: 30,
+                width: 270,
+                height: 270,
+                color: '#dc2626',
+                borderColor: '#f87171'
+            },
+            {
+                id: 'enterprise-enablement',
+                label: 'Enterprise Systems Enablement Stream',
+                contexts: ['workforce', 'finance'],
+                x: 60,
+                y: 310,
+                width: 850,
+                height: 110,
+                color: '#dc2626',
+                borderColor: '#f87171'
+            },
+            {
+                id: 'foundational-services',
+                label: 'Foundational Services Stream',
+                contexts: ['transversal'],
+                x: 60,
+                y: 430,
+                width: 850,
+                height: 55,
+                color: '#dc2626',
+                borderColor: '#f87171'
+            }
+        ]
+    },
+    architecturePools: {
+        bands: [
+            {
+                id: 'experience',
+                label: 'Experience Architecture (Luis Fer)',
+                y: 30,
+                height: 270,
+                color: 'rgba(96, 165, 250, 0.15)',
+                borderColor: '#60a5fa',
+                textColor: '#bfdbfe'
+            },
+            {
+                id: 'service-interaction',
+                label: 'Service Interaction Architecture (Leo Alonso)',
+                y: 120,
+                height: 180,
+                color: 'rgba(167, 139, 250, 0.15)',
+                borderColor: '#a78bfa',
+                textColor: '#e9d5ff'
+            },
+            {
+                id: 'foundational-arch',
+                label: 'Foundational Architecture (José Morales)',
+                y: 310,
+                height: 175,
+                color: 'rgba(248, 113, 113, 0.15)',
+                borderColor: '#f87171',
+                textColor: '#fecaca'
+            }
+        ]
+    },
+    coreTeams: {
+        assignments: [
+            {
+                streamId: 'customer-journey',
+                members: ['Tati', 'Skar', 'Susana'],
+                x: 305,
+                y: 160,
+                color: '#bfdbfe'
+            },
+            {
+                streamId: 'fulfillment-lifecycle',
+                members: ['Jeannette', 'Erick', 'Iván'],
+                x: 775,
+                y: 160,
+                color: '#fecaca'
+            },
+            {
+                streamId: 'enterprise-enablement',
+                members: ['Ceviche', 'David Flores', 'Abraham'],
+                x: 485,
+                y: 365,
+                color: '#fecaca'
+            },
+            {
+                streamId: 'foundational-services',
+                members: ['José V', 'Cerrito', 'Humberto'],
+                x: 485,
+                y: 457,
+                color: '#fecaca'
+            }
+        ]
+    }
+};
+
 function buildContextMap() {
     const container = document.getElementById('sta-context-map');
     if (!container) return;
@@ -1273,6 +1398,70 @@ function buildContextMap() {
                 <animate attributeName="stroke-dashoffset" from="50" to="0" dur="2s" repeatCount="indefinite"></animate>
             </path>
             <text x="510" y="710" fill="#f9a8d4" font-size="8" text-anchor="middle">Insight Loop</text>
+
+            <!-- Overlay: Stream-Aligned Teams -->
+            <g id="ctx-overlay-streams" class="opacity-0 transition-opacity duration-500" pointer-events="none">
+                <!-- Customer Journey Stream - Blue -->
+                <rect x="60" y="30" width="550" height="270" rx="12" fill="rgba(37, 99, 235, 0.75)" stroke="#60a5fa" stroke-width="5" stroke-dasharray="12 8"></rect>
+                <rect x="60" y="10" width="220" height="28" rx="6" fill="#1e3a8a" stroke="#60a5fa" stroke-width="2"></rect>
+                <text x="170" y="28" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">Customer Journey Stream</text>
+                
+                <!-- Fulfillment & Lifecycle Stream - Orange -->
+                <rect x="640" y="30" width="270" height="270" rx="12" fill="rgba(234, 88, 12, 0.75)" stroke="#fb923c" stroke-width="5" stroke-dasharray="12 8"></rect>
+                <rect x="640" y="10" width="270" height="28" rx="6" fill="#9a3412" stroke="#fb923c" stroke-width="2"></rect>
+                <text x="775" y="28" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">Fulfillment & Lifecycle Stream</text>
+                
+                <!-- Enterprise Systems Enablement Stream - Purple -->
+                <rect x="60" y="310" width="850" height="110" rx="12" fill="rgba(147, 51, 234, 0.75)" stroke="#c084fc" stroke-width="5" stroke-dasharray="12 8"></rect>
+                <rect x="330" y="290" width="330" height="28" rx="6" fill="#581c87" stroke="#c084fc" stroke-width="2"></rect>
+                <text x="495" y="308" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">Enterprise Systems Enablement Stream</text>
+                
+                <!-- Foundational Services Stream - Teal -->
+                <rect x="60" y="430" width="850" height="55" rx="12" fill="rgba(13, 148, 136, 0.75)" stroke="#5eead4" stroke-width="5" stroke-dasharray="12 8"></rect>
+                <rect x="330" y="410" width="330" height="28" rx="6" fill="#0f766e" stroke="#5eead4" stroke-width="2"></rect>
+                <text x="495" y="428" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">Foundational Services Stream</text>
+            </g>
+
+            <!-- Overlay: Architecture Pools -->
+            <g id="ctx-overlay-pools" class="opacity-0 transition-opacity duration-500" pointer-events="none">
+                <!-- Experience Architecture - Cyan -->
+                <rect x="60" y="30" width="850" height="270" rx="12" fill="rgba(6, 182, 212, 0.75)" stroke="#22d3ee" stroke-width="4" stroke-dasharray="10 6"></rect>
+                <rect x="680" y="10" width="230" height="28" rx="6" fill="#0e7490" stroke="#22d3ee" stroke-width="2"></rect>
+                <text x="795" y="28" fill="#ffffff" font-size="12" font-weight="700" text-anchor="middle">Experience Architecture (Luis Fer)</text>
+                
+                <!-- Service Interaction Architecture - Indigo -->
+                <rect x="60" y="120" width="850" height="180" rx="12" fill="rgba(99, 102, 241, 0.75)" stroke="#a5b4fc" stroke-width="4" stroke-dasharray="10 6"></rect>
+                <rect x="40" y="100" width="320" height="28" rx="6" fill="#4338ca" stroke="#a5b4fc" stroke-width="2"></rect>
+                <text x="200" y="118" fill="#ffffff" font-size="12" font-weight="700" text-anchor="middle">Service Interaction Architecture (Leo Alonso)</text>
+                
+                <!-- Foundational Architecture - Rose -->
+                <rect x="60" y="310" width="850" height="175" rx="12" fill="rgba(225, 29, 72, 0.75)" stroke="#fb7185" stroke-width="4" stroke-dasharray="10 6"></rect>
+                <rect x="300" y="290" width="310" height="28" rx="6" fill="#9f1239" stroke="#fb7185" stroke-width="2"></rect>
+                <text x="455" y="308" fill="#ffffff" font-size="12" font-weight="700" text-anchor="middle">Foundational Architecture (José Morales)</text>
+            </g>
+
+            <!-- Overlay: Core Team Assignments -->
+            <g id="ctx-overlay-teams" class="opacity-0 transition-opacity duration-500" pointer-events="none">
+                <!-- Customer Journey Team - Blue -->
+                <rect x="240" y="145" width="200" height="44" rx="10" fill="rgba(37, 99, 235, 0.98)" stroke="#60a5fa" stroke-width="3"></rect>
+                <text x="340" y="167" fill="#ffffff" font-size="12" font-weight="700" text-anchor="middle">Tati / Skar / Susana</text>
+                <text x="340" y="182" fill="#dbeafe" font-size="10" font-weight="600" text-anchor="middle">Core Team</text>
+                
+                <!-- Fulfillment Team - Orange -->
+                <rect x="675" y="145" width="200" height="44" rx="10" fill="rgba(234, 88, 12, 0.98)" stroke="#fb923c" stroke-width="3"></rect>
+                <text x="775" y="167" fill="#ffffff" font-size="12" font-weight="700" text-anchor="middle">Jeannette / Erick / Iván</text>
+                <text x="775" y="182" fill="#fed7aa" font-size="10" font-weight="600" text-anchor="middle">Core Team</text>
+                
+                <!-- Enterprise Enablement Team - Purple -->
+                <rect x="345" y="350" width="280" height="44" rx="10" fill="rgba(147, 51, 234, 0.98)" stroke="#c084fc" stroke-width="3"></rect>
+                <text x="485" y="372" fill="#ffffff" font-size="12" font-weight="700" text-anchor="middle">Ceviche / David Flores / Abraham</text>
+                <text x="485" y="387" fill="#e9d5ff" font-size="10" font-weight="600" text-anchor="middle">Core Team</text>
+                
+                <!-- Foundational Services Team - Teal -->
+                <rect x="345" y="445" width="280" height="44" rx="10" fill="rgba(13, 148, 136, 0.98)" stroke="#5eead4" stroke-width="3"></rect>
+                <text x="485" y="467" fill="#ffffff" font-size="12" font-weight="700" text-anchor="middle">José V / Cerrito / Humberto</text>
+                <text x="485" y="482" fill="#ccfbf1" font-size="10" font-weight="600" text-anchor="middle">Core Team</text>
+            </g>
         </svg>`;
 
     container.innerHTML = svg;
@@ -1312,6 +1501,32 @@ function showContextDetail(key) {
 function closeContextDetail() {
     const panel = document.getElementById('sta-context-detail');
     panel.classList.add('opacity-0', 'translate-y-4');
+}
+
+// ===============================
+// Context Map Overlay Toggle
+// ===============================
+function contextMapSetOverlay(mode) {
+    const streamsLayer = document.getElementById('ctx-overlay-streams');
+    const poolsLayer = document.getElementById('ctx-overlay-pools');
+    const teamsLayer = document.getElementById('ctx-overlay-teams');
+
+    if (!streamsLayer || !poolsLayer || !teamsLayer) return;
+
+    // Hide all overlays
+    streamsLayer.classList.add('opacity-0');
+    poolsLayer.classList.add('opacity-0');
+    teamsLayer.classList.add('opacity-0');
+
+    // Show selected overlay
+    if (mode === 'streams') {
+        streamsLayer.classList.remove('opacity-0');
+    } else if (mode === 'pools') {
+        poolsLayer.classList.remove('opacity-0');
+    } else if (mode === 'teams') {
+        teamsLayer.classList.remove('opacity-0');
+    }
+    // mode === 'standard' shows no overlay (all remain hidden)
 }
 
 // ===============================

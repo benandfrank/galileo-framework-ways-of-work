@@ -510,3 +510,18 @@ button:focus-visible {
         display: block;
     }
 }
+
+.ctx-overlay-btn {
+    transition: all 0.2s ease;
+}
+
+.ctx-overlay-btn:hover,
+.ctx-overlay-btn:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    outline: none;
+}
+
+.ctx-overlay-btn:active {
+    transform: translateY(0);
+}
