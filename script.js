@@ -1513,6 +1513,18 @@ function contextMapSetOverlay(mode) {
 
     if (!streamsLayer || !poolsLayer || !teamsLayer) return;
 
+    document.querySelectorAll('.ctx-overlay-btn').forEach(btn => {
+        btn.classList.remove('active', 'active-standard', 'active-streams', 'active-pools', 'active-teams');
+    });
+    const activeBtn = document.querySelector(`.ctx-overlay-btn[data-overlay="${mode}"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('active');
+        if (mode === 'streams') activeBtn.classList.add('active-streams');
+        if (mode === 'pools') activeBtn.classList.add('active-pools');
+        if (mode === 'teams') activeBtn.classList.add('active-teams');
+        if (mode === 'standard') activeBtn.classList.add('active-standard');
+    }
+
     // Hide all overlays
     streamsLayer.classList.add('opacity-0');
     poolsLayer.classList.add('opacity-0');
@@ -1857,6 +1869,847 @@ function bindTooltips() {
 }
 
 // ===============================
+// WIP Flow Atlas
+// ===============================
+const wipTeamStyles = {
+    'Customer Journey Stream': { color: '#3b82f6', bg: 'rgba(59, 130, 246, 0.18)', icon: 'workspaces' },
+    'Fulfillment & Lifecycle Stream': { color: '#dc2626', bg: 'rgba(220, 38, 38, 0.18)', icon: 'local_shipping' },
+    'Enterprise Systems Enablement Stream': { color: '#dc2626', bg: 'rgba(220, 38, 38, 0.18)', icon: 'domain' },
+    'Foundational Services Stream': { color: '#dc2626', bg: 'rgba(220, 38, 38, 0.18)', icon: 'account_tree' },
+    'Data Platform Team': { color: '#0ea5e9', bg: 'rgba(14, 165, 233, 0.18)', icon: 'database' },
+    'Technical Platform Team': { color: '#6b7280', bg: 'rgba(107, 114, 128, 0.18)', icon: 'settings' }
+};
+
+const wipFlowRows = [
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'FashionEyewearContext',
+        flow: 'Promotional Campaign Lifecycle',
+        start: 'Campaign designed and approved',
+        end: 'Campaign optimized or deactivated',
+        value: 'Predictable revenue from coordinated campaigns',
+        moments: 'Campaign activated, performance tracked, adjustments applied',
+        features: ['Campaign configuration', 'Multi-channel orchestration', 'Real-time tracking', 'A/B testing', 'ROI attribution'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'FashionEyewearContext',
+        flow: 'Awareness → Store/Web Entry',
+        start: 'Customer exposed to campaign or brand touchpoint',
+        end: 'Customer enters store or web session',
+        value: 'Qualified traffic with intent',
+        moments: 'First impression consistency (brand, speed, clarity)',
+        features: ['Campaign landing experience', 'Brand content delivery', 'Store locator & access', 'Performance & load readiness'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'FashionEyewearContext',
+        flow: 'Product Discovery & Selection',
+        start: 'Customer enters store or web session → Customer browses catalog',
+        end: 'Product selection/configuration initiated',
+        value: 'Engagement and consideration',
+        moments: 'Navigation clarity, availability accuracy',
+        features: ['Search', 'Faceted navigation', 'Product listing & sorting', 'Product Detail Page', 'Wishlist / favorites', 'Product visualization and fit simulation (VTO)', 'Personalized recommendations'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'VisionProfileContext',
+        flow: 'Eye Exam Appointment Scheduling (Web & PoS)',
+        start: 'Prescription missing, expired, or renewal required',
+        end: 'Appointment scheduled and linked to customer profile',
+        value: 'Reduced abandonment and faster prescription renewal',
+        moments: 'Available slots shown, appointment confirmed, reminder sent',
+        features: ['Store availability', 'Slot management', 'Web & PoS booking', 'Appointment confirmation', 'Reschedule/cancel'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'VisionProfileContext',
+        flow: 'Vision Profile Creation/Update',
+        start: 'Vision test started',
+        end: 'Vision profile saved and validated',
+        value: 'Clinical correctness and trust',
+        moments: 'Prescription accuracy, usability',
+        features: ['Vision test capture', 'Prescription validation', 'Profile management', 'Clinical guidance (Opto recommendations)'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'VisionProfileContext',
+        flow: 'Prescription Lifecycle Management',
+        start: 'Prescription nearing expiration or absent',
+        end: 'Valid prescription stored and active',
+        value: 'End-to-end vision compliance and conversion continuity by reducing abandonment and clinical trust',
+        moments: 'Expiration detected, appointment completed, prescription validated',
+        features: ['Expiration tracking', 'Renewal reminders', 'Appointment linkage: Optometrist scheduling', 'External prescription import'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'CommerceFlowContext',
+        flow: 'Product Configuration',
+        start: 'Product selection/configuration initiated → Vision profile available',
+        end: 'Valid product configuration created',
+        value: 'Error prevention and conversion enablement',
+        moments: 'Compatibility validation, guidance quality',
+        features: ['Compatibility rules', 'Configuration guidance', 'Real-time validation, Treatment recommendations'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'CommerceFlowContext',
+        flow: 'Checkout & Payment',
+        start: 'Valid product configuration created → Customer in Web/Casimirx in PoS initiates checkout',
+        end: 'Payment confirmed',
+        value: 'Revenue capture with minimal friction',
+        moments: 'Payment success',
+        features: ['Checkout orchestration', 'Payment processing', 'Pricing & promotions application', 'Fraud & payment validation'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'CommerceFlowContext',
+        flow: 'Omnichannel Order Handoff (BOPIS / ROTIS)',
+        start: 'Customer selects hybrid fulfillment option',
+        end: 'Order fulfilled via hybrid channel',
+        value: 'Higher conversion and lower fulfillment cost',
+        moments: 'Store reservation, pickup or try-in completed',
+        features: ['Store selection', 'Cross-system reservation'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'CommerceFlowContext',
+        flow: 'Order Confirmation & Customer Communication',
+        start: 'Payment confirmed',
+        end: 'Order confirmation delivered',
+        value: 'Trust and expectation setting',
+        moments: 'Confirmation accuracy, promise clarity',
+        features: ['Order summary generation', 'Confirmation messaging', 'Delivery promise communication'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'CustomerCareContext',
+        flow: 'Issue Declaration (Customer-Initiated)',
+        start: 'Customer experiences an issue',
+        end: 'Issue formally registered in system',
+        value: 'Visibility of friction and faster recovery',
+        moments: 'Ease of reporting, acknowledgment speed',
+        features: ['Issue intake', 'Case creation', 'Evidence capture', 'Customer acknowledgment'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'CustomerCareContext',
+        flow: 'Customer Support Resolution',
+        start: 'Issue registered',
+        end: 'Issue resolved and communicated',
+        value: 'Trust recovery and satisfaction',
+        moments: 'Resolution quality, response time',
+        features: ['Case management', 'Resolution workflows', 'Customer communication'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'CustomerCareContext',
+        flow: 'Feedback & NPS Capture',
+        start: 'Order delivered or issue resolved',
+        end: 'Feedback stored and linked to order',
+        value: 'Learning loop for experience improvement',
+        moments: 'Timeliness, relevance of feedback',
+        features: ['Feedback collection', 'NPS measurement', 'Qualitative insights capture'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Customer Journey Stream',
+        context: 'CustomerCareContext',
+        flow: 'Delivery Experience (Customer-Facing)',
+        start: 'Order shipped',
+        end: 'Delivery confirmed by customer',
+        value: 'Fulfillment trust from customer perspective',
+        moments: 'Tracking accuracy, delivery promise kept',
+        features: ['Shipment tracking visibility', 'Delivery notifications', 'Exception visibility'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Fulfillment & Lifecycle Stream',
+        context: 'OperationsContextManufacturing',
+        flow: 'Order → Manufacturing Release',
+        start: 'Order confirmed and ready for production',
+        end: 'Manufacturing order released',
+        value: 'Reliable handoff from demand to production',
+        moments: 'Order completeness, configuration validity',
+        features: ['Manufacturing order creation', 'Bill of materials resolution', 'Production readiness validation'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Fulfillment & Lifecycle Stream',
+        context: 'OperationsContextManufacturing',
+        flow: 'Manufacturing Execution',
+        start: 'Manufacturing order started',
+        end: 'Product manufactured and quality-approved',
+        value: 'Predictable, compliant production',
+        moments: 'Quality checkpoints, cycle time adherence',
+        features: ['Production execution', 'Quality control', 'Rework handling'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Fulfillment & Lifecycle Stream',
+        context: 'OperationsContextManufacturing',
+        flow: 'Manufacturing Exception & Rework',
+        start: 'Manufacturing defect or issue detected',
+        end: 'Issue resolved or remake completed',
+        value: 'Controlled recovery with minimal waste',
+        moments: 'Defect detection speed, root-cause clarity',
+        features: ['Defect detection', 'Rework orchestration', 'Root-cause classification'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Fulfillment & Lifecycle Stream',
+        context: 'LogisticsContext',
+        flow: 'Shipping Preparation & Dispatch',
+        start: 'Product ready for shipment',
+        end: 'Package handed to carrier',
+        value: 'Accurate and timely shipment',
+        moments: 'Label accuracy, carrier handoff',
+        features: ['Shipping label generation', 'Carrier selection', 'Dispatch confirmation'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Fulfillment & Lifecycle Stream',
+        context: 'LogisticsContext',
+        flow: 'In-Transit Management',
+        start: 'Package dispatched',
+        end: 'Delivery attempt completed',
+        value: 'Predictable delivery progress',
+        moments: 'Tracking accuracy, delay detection',
+        features: ['Shipment tracking', 'Status updates', 'Delay detection'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Fulfillment & Lifecycle Stream',
+        context: 'LogisticsContext',
+        flow: 'Delivery Completion',
+        start: 'Delivery attempt successful',
+        end: 'Delivery confirmed',
+        value: 'Fulfillment of delivery promise',
+        moments: 'On-time delivery, package integrity',
+        features: ['Delivery confirmation', 'Proof of delivery'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Fulfillment & Lifecycle Stream',
+        context: 'LogisticsContext',
+        flow: 'Delivery Exception Handling',
+        start: 'Delivery issue detected',
+        end: 'Issue resolved or escalated',
+        value: 'Minimized customer and cost impact',
+        moments: 'Detection latency, resolution time',
+        features: ['Exception detection', 'Carrier coordination', 'Resolution workflows'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Fulfillment & Lifecycle Stream',
+        context: 'LogisticsContext',
+        flow: 'Remake / Replacement Lifecycle',
+        start: 'Remake triggered (defect, loss, guarantee)',
+        end: 'Replacement delivered',
+        value: 'Customer recovery with controlled cost',
+        moments: 'Time to remake, quality consistency',
+        features: ['Remake orchestration', 'Priority handling', 'Cost tracking'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Fulfillment & Lifecycle Stream',
+        context: 'LogisticsContext',
+        flow: 'Returns & Reverse Logistics',
+        start: 'Customer initiates return request',
+        end: 'Refund issued or replacement shipped',
+        value: 'Increased CLV and controlled reverse-logistics cost',
+        moments: 'Eligibility validated, product inspected, decision communicated',
+        features: ['Return intake', 'Policy evaluation', 'Reverse logistics coordination', 'Inspection workflow', 'Disposition rules'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Core Business Layer',
+        team: 'Fulfillment & Lifecycle Stream',
+        context: 'LogisticsContext',
+        flow: 'Fulfillment Performance Feedback Loop',
+        start: 'Order lifecycle completed',
+        end: 'Metrics reviewed and acted upon',
+        value: 'Continuous improvement of throughput and quality',
+        moments: 'Data completeness, actionability',
+        features: ['Throughput measurement', 'Defect analytics', 'Lead-time tracking'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Enterprise Layer',
+        team: 'Enterprise Systems Enablement Stream',
+        context: 'WorkforceContext',
+        flow: 'Workforce Onboarding & Enablement',
+        start: 'Hiring decision finalized',
+        end: 'Employee fully enabled in systems',
+        value: 'Fast, compliant time-to-productivity',
+        moments: 'Day-1 readiness, access completeness',
+        features: ['User provisioning', 'Role-based access', 'Equipment & system enablement'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Enterprise Layer',
+        team: 'Enterprise Systems Enablement Stream',
+        context: 'WorkforceContext',
+        flow: 'Workforce Lifecycle Management',
+        start: 'Employee status change triggered',
+        end: 'Status reflected across systems',
+        value: 'Consistent and compliant people operations',
+        moments: 'Data consistency, policy adherence',
+        features: ['Role & contract management', 'Status propagation', 'Policy enforcement'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Enterprise Layer',
+        team: 'Enterprise Systems Enablement Stream',
+        context: 'WorkforceContext',
+        flow: 'Access Change & Offboarding',
+        start: 'Role change or termination initiated',
+        end: 'Access revoked and records updated',
+        value: 'Risk reduction and compliance',
+        moments: 'Access revocation timeliness',
+        features: ['Access revocation', 'Audit logging', 'Asset recovery'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Enterprise Enablement Layer',
+        team: 'Enterprise Systems Enablement Stream',
+        context: 'FinanceOpsContext',
+        flow: 'Fiscal Invoicing & Legal Document Issuance',
+        start: 'Transaction eligible for invoicing',
+        end: 'Fiscal invoice issued and stored',
+        value: 'Regulatory compliance and legally valid revenue recognition',
+        moments: 'Fiscal accuracy, timeliness, rejection rate',
+        features: ['Fiscal document generation', 'Country-specific invoice rules', 'Tax calculation', 'Legal validation'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Enterprise Enablement Layer',
+        team: 'Enterprise Systems Enablement Stream',
+        context: 'FinanceOpsContext',
+        flow: 'Payments & Financial Reconciliation',
+        start: 'Payment registered or received',
+        end: 'Payment reconciled against invoice',
+        value: 'Accurate cash flow and financial consistency',
+        moments: 'Reconciliation correctness',
+        features: ['Payment registration', 'Reconciliation rules', 'Exception handling'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Enterprise Enablement Layer',
+        team: 'Enterprise Systems Enablement Stream',
+        context: 'FinanceOpsContext',
+        flow: 'Financial Close & Reporting',
+        start: 'Accounting period close initiated',
+        end: 'Period closed and reported',
+        value: 'Reliable financial visibility for decision-making',
+        moments: 'Close accuracy, close cycle time',
+        features: ['Ledger consolidation', 'Period close orchestration', 'Financial reporting'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Enterprise Enablement Layer',
+        team: 'Enterprise Systems Enablement Stream',
+        context: 'FinanceOpsContext',
+        flow: 'Compliance, Audit & Fiscal Evidence',
+        start: 'Audit or compliance request triggered',
+        end: 'Evidence delivered and validated',
+        value: 'Reduced regulatory and audit risk',
+        moments: 'Evidence completeness, traceability',
+        features: ['Audit trails', 'Fiscal evidence retrieval', 'Compliance reporting'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Enterprise Enablement Layer',
+        team: 'Enterprise Systems Enablement Stream',
+        context: 'FinanceOpsContext',
+        flow: 'Refunds, Credits & Adjustments',
+        start: 'Refund or adjustment requested',
+        end: 'Financial adjustment completed and recorded',
+        value: 'Correct customer recovery with financial integrity',
+        moments: 'Adjustment correctness, approval flow',
+        features: ['Refund rules', 'Credit note issuance', 'Approval workflows'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Enterprise Enablement Layer',
+        team: 'Enterprise Systems Enablement Stream',
+        context: 'FinanceOpsContext',
+        flow: 'Data Subject Rights Management (ARCO / LGPD)',
+        start: 'Customer submits data rights request',
+        end: 'Request fulfilled and audited',
+        value: 'Regulatory compliance and customer trust',
+        moments: 'Identity verified, data discovered, confirmation issued',
+        features: ['Rights request intake', 'Cross-system data discovery', 'Export/deletion orchestration', 'Compliance reporting'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Foundational Business Layer',
+        team: 'Foundational Services Stream',
+        context: 'TransversalServicesLayer',
+        flow: 'Inventory Availability & Integrity',
+        start: 'Inventory query, update, or reservation requested',
+        end: 'Inventory state confirmed and consistent',
+        value: 'Single, trusted source of stock truth across Galileo',
+        moments: 'Stock accuracy, reservation correctness',
+        features: ['Inventory availability', 'Stock reservation', 'Consistency validation'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Foundational Business Layer',
+        team: 'Foundational Services Stream',
+        context: 'TransversalServicesLayer',
+        flow: 'Inventory Allocation & Conflict Resolution',
+        start: 'Competing inventory demands detected',
+        end: 'Allocation resolved or rejected',
+        value: 'Prevention of over-selling and downstream operational failure',
+        moments: 'Allocation decision latency, priority correctness',
+        features: ['Allocation rules', 'Conflict resolution', 'Use of thresholds', 'Priority handling'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Foundational Business Layer',
+        team: 'Foundational Services Stream',
+        context: 'TransversalServicesLayer',
+        flow: 'Optical Product Creation',
+        start: 'Optical product definition requested',
+        end: 'Optical product created and reusable',
+        value: 'Consistent optical product model across channels and regions',
+        moments: 'Definition completeness, rule validity',
+        features: ['Optical product modeling', 'Component composition', 'Validation rules'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Foundational Business Layer',
+        team: 'Foundational Services Stream',
+        context: 'TransversalServicesLayer',
+        flow: 'Optical Product Configuration Enablement',
+        start: 'Product configuration initiated',
+        end: 'Configuration rules resolved',
+        value: 'Safe and consistent configuration across all Streams',
+        moments: 'Rule resolution accuracy',
+        features: ['Compatibility rules', 'Treatment constraints', 'Configuration guidance'],
+        domainType: 'Core'
+    },
+    {
+        layer: 'Foundational Business Layer',
+        team: 'Foundational Services Stream',
+        context: 'TransversalServicesLayer',
+        flow: 'Pricing & Commercial Rules',
+        start: 'Price or promotion evaluation requested',
+        end: 'Price calculated and returned',
+        value: 'Consistent and auditable pricing decisions',
+        moments: 'Pricing determinism, rule traceability',
+        features: ['Price calculation', 'Promotion rules', 'Tax and fiscal logic'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Foundational Business Layer',
+        team: 'Foundational Services Stream',
+        context: 'TransversalServicesLayer',
+        flow: 'Guarantees, Policies & Entitlements',
+        start: 'Eligibility or policy check requested',
+        end: 'Entitlement decision returned',
+        value: 'Predictable customer rights and recovery decisions',
+        moments: 'Policy correctness, eligibility clarity',
+        features: ['Guarantee rules', 'Return eligibility', 'Entitlement evaluation'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Foundational Business Layer',
+        team: 'Foundational Services Stream',
+        context: 'TransversalServicesLayer',
+        flow: 'Order Identity & Lifecycle Spine',
+        start: 'Order created or updated',
+        end: 'Order state transition confirmed',
+        value: 'Coherent and traceable order lifecycle across Streams',
+        moments: 'State consistency, idempotency',
+        features: ['Canonical order model', 'State transitions', 'Lifecycle invariants'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Foundational Business Layer',
+        team: 'Foundational Services Stream',
+        context: 'TransversalServicesLayer',
+        flow: 'Multi-Contacts Customer Profile',
+        start: 'Customer interaction or update triggered',
+        end: 'Unified customer profile updated',
+        value: 'Single, reliable customer identity across channels',
+        moments: 'Identity consistency',
+        features: ['Identity resolution', 'Contact aggregation', 'Profile unification'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Foundational Business Layer',
+        team: 'Foundational Services Stream',
+        context: 'TransversalServicesLayer',
+        flow: 'Market Localization Rules & Configuration',
+        start: 'Stream requests market-specific behavior',
+        end: 'Market rules resolved and applied consistently',
+        value: 'Consistent behavior per country/channel',
+        moments: 'Pricing/currency correctness, catalog eligibility',
+        features: ['Market configuration', 'Currency & rounding rules', 'Market validation rules'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Foundational Business Layer',
+        team: 'Foundational Services Stream',
+        context: 'TransversalServicesLayer',
+        flow: 'Reference & Master Data Semantics',
+        start: 'Reference data update requested',
+        end: 'Data propagated and available',
+        value: 'Consistent shared business semantics',
+        moments: 'Propagation accuracy',
+        features: ['Reference data management', 'Versioning', 'Distribution contracts'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Data Platform',
+        team: 'Data Platform Team',
+        context: 'DataPlatformContext',
+        flow: 'Trusted Data Availability',
+        start: 'Data or signal requested',
+        end: 'Data returned, certified, and usable',
+        value: 'Decisions based on reliable data',
+        moments: 'Freshness SLA, trust level',
+        features: ['Curated datasets', 'Data contracts', 'Semantic models'],
+        domainType: 'Generic'
+    },
+    {
+        layer: 'Data Platform',
+        team: 'Data Platform Team',
+        context: 'DataPlatformContext',
+        flow: 'Business Signal Observability',
+        start: 'Business event emitted',
+        end: 'Signal observable and correlated',
+        value: 'Visibility of value flows',
+        moments: 'Correlation completeness',
+        features: ['Event capture', 'Business metrics'],
+        domainType: 'Generic'
+    },
+    {
+        layer: 'Data Platform',
+        team: 'Data Platform Team',
+        context: 'DataPlatformContext',
+        flow: 'Data Governance & Access',
+        start: 'Data access requested',
+        end: 'Access granted per policy',
+        value: 'Secure and compliant data use',
+        moments: 'Access correctness',
+        features: ['Data governance', 'Policy enforcement'],
+        domainType: 'Generic'
+    },
+    {
+        layer: 'Technical Platform',
+        team: 'Technical Platform Team',
+        context: 'DevPlatformContext',
+        flow: 'Internationalization Enablement',
+        start: 'Product/UI capability needs multilingual support',
+        end: 'Standard i18n implemented consistently across channels',
+        value: 'Faster multi-country rollout, less rework',
+        moments: 'Coverage of strings, missing keys rate',
+        features: ['i18n libraries', 'Translation pipeline', 'Locale packs'],
+        domainType: 'Supporting'
+    },
+    {
+        layer: 'Technical Platform',
+        team: 'Technical Platform Team',
+        context: 'DevPlatformContext',
+        flow: 'Service Runtime & Deployment',
+        start: 'Service ready to deploy',
+        end: 'Service running and healthy',
+        value: 'Faster, safer delivery',
+        moments: 'Deployment success, MTTR',
+        features: ['Runtime platform', 'Deployment pipelines'],
+        domainType: 'Generic'
+    },
+    {
+        layer: 'Technical Platform',
+        team: 'Technical Platform Team',
+        context: 'DevPlatformContext',
+        flow: 'Observability & Reliability Primitives',
+        start: 'Service emits telemetry',
+        end: 'Signal actionable',
+        value: 'Faster detection and recovery',
+        moments: 'Alert quality',
+        features: ['Metrics', 'Tracing', 'Logging'],
+        domainType: 'Generic'
+    },
+    {
+        layer: 'Technical Platform',
+        team: 'Technical Platform Team',
+        context: 'IntegrationPlatformContext',
+        flow: 'Eventing & Messaging Backbone',
+        start: 'Event published',
+        end: 'Event delivered reliably',
+        value: 'Loose coupling and scale',
+        moments: 'Delivery guarantees',
+        features: ['Event runtime', 'Subscription handling'],
+        domainType: 'Generic'
+    },
+    {
+        layer: 'Technical Platform',
+        team: 'Technical Platform Team',
+        context: 'IntegrationPlatformContext',
+        flow: 'API Mediation & Gateways',
+        start: 'API request made',
+        end: 'Request routed and protected',
+        value: 'Safe integrations',
+        moments: 'Latency, error rate',
+        features: ['API routing', 'Rate limiting'],
+        domainType: 'Generic'
+    },
+    {
+        layer: 'Technical Platform',
+        team: 'Technical Platform Team',
+        context: 'SecurityPlatformContext',
+        flow: 'Identity & Access Control',
+        start: 'Auth request made',
+        end: 'Access decision returned',
+        value: 'Secure operations',
+        moments: 'Authorization correctness',
+        features: ['Identity management', 'Permission evaluation'],
+        domainType: 'Generic'
+    },
+    {
+        layer: 'Technical Platform',
+        team: 'Technical Platform Team',
+        context: 'SecurityPlatformContext',
+        flow: 'Secure Configuration & Secrets',
+        start: 'Secret requested',
+        end: 'Secret delivered securely',
+        value: 'Reduced security risk',
+        moments: 'Rotation success',
+        features: ['Secrets management'],
+        domainType: 'Generic'
+    }
+];
+
+const compassTeams = [
+    {
+        name: 'Customer Journey Stream',
+        roles: 'Product Tech Lead, Software Engineer, Product Manager',
+        domains: 'Fashion Eyewear, Commerce Flow, Vision Profile, Customer Care',
+        contact: '@customer-journey-team',
+        color: '#3b82f6',
+        icon: 'workspaces'
+    },
+    {
+        name: 'Fulfillment & Lifecycle Stream',
+        roles: 'Product Tech Lead, Software Engineer, Product Manager, Lab Ops',
+        domains: 'Manufacturing, Logistics, RMAs, LMS',
+        contact: 'Stream leadership (channel not listed)',
+        color: '#dc2626',
+        icon: 'local_shipping'
+    },
+    {
+        name: 'Foundational Service Stream',
+        roles: 'Product Tech Lead, Software Engineer, Product Manager',
+        domains: 'Inventory, Orders, Optical Product, Customer Account',
+        contact: 'Stream leadership (channel not listed)',
+        color: '#dc2626',
+        icon: 'account_tree'
+    },
+    {
+        name: 'Enterprise Systems Enablement',
+        roles: 'Product Tech Lead, Software Engineer, Product Manager',
+        domains: 'Workforce, Finance Ops',
+        contact: 'Stream leadership (channel not listed)',
+        color: '#dc2626',
+        icon: 'domain'
+    },
+    {
+        name: 'Technical Platform',
+        roles: 'Platform Engineer Lead, DevOps, Security Platform',
+        domains: 'Runtime, security, observability, CI/CD',
+        contact: 'Platform leadership (channel not listed)',
+        color: '#6b7280',
+        icon: 'settings'
+    },
+    {
+        name: 'Delivery & Quality Enabler',
+        roles: 'Quality Engineer, Automation Engineer, Head of Delivery & Quality',
+        domains: 'Testing, data quality, delivery coaching',
+        contact: 'Enablement leadership (channel not listed)',
+        color: '#fbbf24',
+        icon: 'fact_check'
+    },
+    {
+        name: 'Experience Architecture',
+        roles: 'Architect, Staff Engineer, Software Engineer',
+        domains: 'Digital experience, frontend core',
+        contact: 'Architecture leadership (channel not listed)',
+        color: '#60a5fa',
+        icon: 'palette'
+    },
+    {
+        name: 'Service Interaction Architecture',
+        roles: 'Architect, Staff Engineer, Software Engineer',
+        domains: 'System interconnectivity, API governance',
+        contact: 'Architecture leadership (channel not listed)',
+        color: '#a78bfa',
+        icon: 'hub'
+    },
+    {
+        name: 'Foundational Architecture',
+        roles: 'Architect, Staff Engineer',
+        domains: 'Core invariants, Galileo foundations',
+        contact: 'Architecture leadership (channel not listed)',
+        color: '#f87171',
+        icon: 'foundation'
+    },
+    {
+        name: 'Technical & Extended Support',
+        roles: 'Service Desk Analyst, IT Support Analyst, Head of Service Desk',
+        domains: 'All',
+        contact: 'Support leadership (channel not listed)',
+        color: '#f97316',
+        icon: 'support_agent'
+    },
+    {
+        name: 'Product Design Enablement',
+        roles: 'Product Designer, Product Design Lead',
+        domains: 'UX, UI, internal tools',
+        contact: 'Design leadership (channel not listed)',
+        color: '#ec4899',
+        icon: 'brush'
+    },
+    {
+        name: 'Data Platform',
+        roles: 'Data Platform Head, Data Engineers, BI Analysts',
+        domains: 'Data contracts, pipelines, analytics',
+        contact: 'Data Platform leadership (channel not listed)',
+        color: '#0ea5e9',
+        icon: 'database'
+    },
+    {
+        name: 'BI',
+        roles: 'BI Analyst',
+        domains: 'Analytics, reporting',
+        contact: 'BI leadership (channel not listed)',
+        color: '#22c55e',
+        icon: 'insights'
+    },
+    {
+        name: 'Leadership',
+        roles: 'CTO',
+        domains: 'Technology strategy',
+        contact: 'Leadership (channel not listed)',
+        color: '#eab308',
+        icon: 'workspace_premium'
+    }
+];
+
+function renderWipFlowTable() {
+    const table = document.getElementById('wip-flow-table');
+    if (!table) return;
+
+    const header = `
+        <thead>
+            <tr>
+                <th>Layer</th>
+                <th>Accountable Team</th>
+                <th>Bounded Context</th>
+                <th>Flow (Expected Outcome)</th>
+                <th>Start Event</th>
+                <th>End Event</th>
+                <th>Value Delivered</th>
+                <th>Moments of Truth</th>
+                <th>Features & Capabilities</th>
+                <th>Domain Type</th>
+            </tr>
+        </thead>`;
+
+    const rows = wipFlowRows.map(row => {
+        const style = wipTeamStyles[row.team] || { color: '#94a3b8', bg: 'rgba(148, 163, 184, 0.18)', icon: 'groups' };
+        const teamChip = `
+            <span class="wip-team-chip" style="border-color:${style.color}; color:${style.color}; background:${style.bg}">
+                <span class="material-symbols-outlined">${style.icon}</span>
+                ${row.team}
+            </span>`;
+
+        const domainStyle = row.domainType === 'Core'
+            ? { bg: 'rgba(59, 130, 246, 0.2)', color: '#bfdbfe', border: 'rgba(59, 130, 246, 0.45)' }
+            : row.domainType === 'Supporting'
+                ? { bg: 'rgba(251, 191, 36, 0.2)', color: '#fde68a', border: 'rgba(251, 191, 36, 0.45)' }
+                : { bg: 'rgba(148, 163, 184, 0.2)', color: '#e2e8f0', border: 'rgba(148, 163, 184, 0.45)' };
+        const domainTag = `<span class="wip-domain-tag" style="background:${domainStyle.bg}; color:${domainStyle.color}; border-color:${domainStyle.border};">${row.domainType}</span>`;
+
+        const featureList = row.features && row.features.length
+            ? `<ul>${row.features.map(f => `<li>${f}</li>`).join('')}</ul>`
+            : '—';
+
+        return `
+            <tr>
+                <td>${row.layer}</td>
+                <td>${teamChip}</td>
+                <td>${row.context}</td>
+                <td>${row.flow}</td>
+                <td>${row.start}</td>
+                <td>${row.end}</td>
+                <td>${row.value}</td>
+                <td>${row.moments}</td>
+                <td>${featureList}</td>
+                <td>${domainTag}</td>
+            </tr>`;
+    }).join('');
+
+    table.innerHTML = `${header}<tbody>${rows}</tbody>`;
+}
+
+function renderCompassTeams() {
+    const container = document.getElementById('compass-grid');
+    if (!container) return;
+    container.innerHTML = compassTeams.map(team => `
+        <div class="compass-card" style="border-color:${team.color}40">
+            <div class="compass-head">
+                <span class="compass-icon" style="background:${team.color}20; color:${team.color}">
+                    <span class="material-symbols-outlined">${team.icon}</span>
+                </span>
+                <h5 style="color:${team.color}">${team.name}</h5>
+            </div>
+            <p><strong>Roles:</strong> ${team.roles}</p>
+            <p><strong>Domains:</strong> ${team.domains}</p>
+            <p><strong>Contact:</strong> ${team.contact}</p>
+        </div>
+    `).join('');
+}
+
+// ===============================
 // Initialization
 // ===============================
 window.addEventListener('load', () => {
@@ -1867,6 +2720,8 @@ window.addEventListener('load', () => {
     renderJourneyTimelines();
     renderContextStressGrid();
     renderContextOwnership();
+    renderWipFlowTable();
+    renderCompassTeams();
     initReveal();
     bindAnchors();
     bindTooltips();
