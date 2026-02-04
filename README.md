@@ -7,6 +7,8 @@ Interactive microsite for Galileo’s socio-technical operating system: Discover
 - SVG diagrams generated from config objects (tracks, feedback loops, residuality overlays) for WOW, POM, STA, and context map.
 - Customer Value Stream: data-driven timeline + mobile accordion; modal shows 4ojos vs. casimirx perspectives, signals, exceptions, and DDO contribution map.
 - Modes for insight/stability/residuality, team topology overlays, and behavioral states.
+- POM Operating System: guardrails, sensors, and high-sensitivity design gate with interactive modals.
+- WIP Flow Atlas: filterable flow table + mobile cards; Compass contact map rendered from data files.
 - Harmonized DDO color coding: Discovery (blue), Delivery (green), Operations (rose).
 - Responsive for laptop, tablet, and mobile with scrollable diagrams and accessible focus states.
 
@@ -29,9 +31,11 @@ python -m http.server 8000
 - `index.html` – Page structure, view containers, modal host, and CDN links.
 - `style.css` – Custom theming (glass panels, gradients, spacing, focus rings, tooltips, responsive diagram shells).
 - `script.js` – Config-driven SVG generation, interactivity, accessibility wiring, and data models for contexts, roles, and journey.
+- `data/wip-flows.js` – WIP Flow Atlas dataset.
+- `data/compass-teams.js` – Compass contact map dataset.
 
 ## Extending
-Edit the config objects in `script.js` (`wowConfig`, `pomConfig`, `staLayers`, `contextData`, `journeyStepDetails`, `roleActivitiesData`) to update content or add tracks without touching HTML.
+Edit the config objects in `script.js` (`wowConfig`, `pomConfig`, `staLayers`, `contextData`, `journeyStepDetails`, `roleActivitiesData`) to update content or add tracks without touching HTML. Update flow/contact datasets in `data/wip-flows.js` and `data/compass-teams.js`.
 
 ## Alignment with Galileo Ways of Work
 - **Customer-first**: Journey cards and modals show both 4ojos (customer) and casimirx (operators) perspectives.

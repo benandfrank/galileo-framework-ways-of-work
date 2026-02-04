@@ -1,3 +1,5 @@
+const WIP_FLOW_LAST_UPDATED = '2026-02-03';
+
 const WIP_FLOW_ROWS = [
     {
         layer: 'Core Business Layer',

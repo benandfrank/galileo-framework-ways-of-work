@@ -31,7 +31,7 @@
 
     <!-- WOW VIEW -->
     <div id="wow-view" class="view-container active">
-        <header class="relative min-h-screen flex flex-col justify-center items-center overflow-hidden px-6 hero-gradient">
+        <header class="relative min-h-screen flex flex-col justify-center items-center overflow-hidden px-6 hero-gradient" id="wow-overview">
             <div class="relative max-w-5xl mx-auto text-center z-10">
                 <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-blue-500/40 bg-blue-500/10 mb-5">
                     <span class="material-symbols-outlined text-sm text-blue-300">apartment</span>
@@ -46,6 +46,18 @@
                 <div class="mt-10 text-slate-500"><span class="material-symbols-outlined text-3xl animate-bounce">expand_more</span></div>
             </div>
         </header>
+
+        <section class="py-4 px-4 bg-slate-950/70">
+            <div class="max-w-7xl mx-auto">
+                <div class="mini-toc">
+                    <span class="mini-toc-label">Quick nav</span>
+                    <button class="mini-toc-btn" data-anchor="#wow-overview">Overview</button>
+                    <button class="mini-toc-btn" data-anchor="#wow-diagram-section">Flow engine</button>
+                    <button class="mini-toc-btn" data-anchor="#wow-tracks">Three tracks</button>
+                    <button class="mini-toc-btn" data-anchor="#customer-journey">Value stream</button>
+                </div>
+            </div>
+        </section>
 
         <section class="py-16 px-4 bg-[#020617]" id="wow-diagram-section">
             <div class="max-w-7xl mx-auto">
@@ -111,7 +123,7 @@
             </div>
         </section>
 
-        <section class="py-16 bg-slate-950">
+        <section class="py-16 bg-slate-950" id="wow-tracks">
             <div class="max-w-7xl mx-auto px-6">
                 <h2 class="text-3xl md:text-4xl font-semibold mb-12 text-center">Three parallel tracks, one <span class="text-gradient">customer value stream</span></h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -244,7 +256,7 @@
 
     <!-- POM VIEW -->
     <div id="pom-view" class="view-container">
-        <header class="relative min-h-[90vh] flex flex-col justify-center items-center overflow-hidden hero-gradient px-6">
+        <header class="relative min-h-[90vh] flex flex-col justify-center items-center overflow-hidden hero-gradient px-6" id="pom-overview">
             <div class="relative z-10 max-w-5xl mx-auto text-center">
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 border border-slate-700/60 mb-6">
                     <span class="w-2 h-2 rounded-full bg-green-400 animate-soft-pulse"></span>
@@ -259,7 +271,18 @@
             </div>
         </header>
 
-        <section class="py-14 bg-[#020617]">
+        <section class="py-4 px-4 bg-slate-950/70">
+            <div class="max-w-7xl mx-auto">
+                <div class="mini-toc">
+                    <span class="mini-toc-label">Quick nav</span>
+                    <button class="mini-toc-btn" data-anchor="#pom-overview">Overview</button>
+                    <button class="mini-toc-btn" data-anchor="#pom-diagram">Dynamic flow</button>
+                    <button class="mini-toc-btn" data-anchor="#pom-operating-system">Operating system</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-14 bg-[#020617]" id="pom-diagram">
             <div class="max-w-7xl mx-auto px-4 mb-6 flex flex-col md:flex-row items-end justify-between gap-4">
                 <div>
                     <h2 class="text-3xl md:text-4xl font-semibold text-slate-50 mb-2">Dynamic flow and socio-technical lens</h2>
@@ -436,7 +459,7 @@
 
     <!-- STA VIEW -->
     <div id="sta-view" class="view-container">
-        <header class="relative min-h-[70vh] flex flex-col justify-center items-center overflow-hidden px-6 hero-gradient">
+        <header class="relative min-h-[70vh] flex flex-col justify-center items-center overflow-hidden px-6 hero-gradient" id="sta-overview">
             <div class="relative max-w-5xl mx-auto text-center z-10">
                 <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-purple-500/40 bg-purple-500/10 mb-5">
                     <span class="material-symbols-outlined text-sm text-purple-300">layers</span>
@@ -452,7 +475,26 @@
             </div>
         </header>
 
-        <section class="py-16 px-4 bg-[#020617]">
+        <section class="py-4 px-4 bg-slate-950/70">
+            <div class="max-w-7xl mx-auto">
+                <div class="mini-toc">
+                    <span class="mini-toc-label">Quick nav</span>
+                    <button class="mini-toc-btn" data-anchor="#sta-overview">Overview</button>
+                    <button class="mini-toc-btn" data-anchor="#sta-architecture">Five-layer model</button>
+                    <button class="mini-toc-btn" data-anchor="#sta-context-map-section">Context map</button>
+                    <button class="mini-toc-btn" data-anchor="#wip-atlas">WIP atlas</button>
+                    <button class="mini-toc-btn" data-anchor="#compass-section">Compass map</button>
+                </div>
+                <div class="quick-actions">
+                    <span class="quick-actions-label">Quick actions</span>
+                    <button class="quick-action-btn" data-anchor="#sta-context-map-section"><span class="material-symbols-outlined">map</span>Open context map</button>
+                    <button class="quick-action-btn" data-anchor="#wip-atlas"><span class="material-symbols-outlined">table_chart</span>Open WIP atlas</button>
+                    <button class="quick-action-btn" data-anchor="#compass-section"><span class="material-symbols-outlined">track_changes</span>Open Compass</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 px-4 bg-[#020617]" id="sta-architecture">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-10">
                     <h2 class="text-3xl md:text-4xl font-semibold mb-2">Five-Layer Architecture Model</h2>
@@ -480,7 +522,7 @@
             </div>
         </section>
 
-        <section class="py-12 px-4 bg-slate-950">
+        <section class="py-12 px-4 bg-slate-950" id="sta-context-map-section">
             <div class="max-w-7xl mx-auto">
                 <h2 class="text-2xl md:text-3xl font-semibold text-center mb-6">Context Map + Layer Ownership</h2>
                 <div class="flex flex-wrap justify-center gap-3 mb-6">
@@ -596,12 +638,15 @@
                     <div>
                         <h3 class="text-2xl md:text-3xl font-semibold">WIP Flow Atlas</h3>
                         <p class="text-sm text-slate-300 max-w-2xl mt-2">A digest of Galileo’s sociotechnical flows and the Brújula contact map. This is a working reference to align architecture, operations, and decision-making.</p>
+                        <p class="text-xs text-slate-500 mt-2">Last updated: <span id="wip-last-updated">—</span></p>
                     </div>
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-200 text-[11px] uppercase tracking-[0.22em]">
                         <span class="material-symbols-outlined text-xs">construction</span>
                         WIP
                     </div>
                 </div>
+
+                <div class="glass-panel rounded-2xl p-5 border border-slate-700/60 mb-6" id="wip-signal-banner"></div>
 
                 <div class="glass-panel rounded-2xl p-5 border border-slate-700/60 mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
@@ -634,8 +679,18 @@
                             <p class="wip-filter-label">Domain Type</p>
                             <div class="wip-filter-options" id="wip-filter-domain"></div>
                         </div>
+                        <div class="wip-filter-group">
+                            <p class="wip-filter-label">Search</p>
+                            <input id="wip-search" type="search" placeholder="Search flows, context, value…" class="wip-search" />
+                        </div>
                     </div>
-                    <div class="wip-filter-meta" id="wip-filter-meta"></div>
+                    <div class="wip-filter-footer">
+                        <div class="wip-filter-meta" id="wip-filter-meta"></div>
+                        <div class="wip-actions">
+                            <button class="wip-action-btn" id="wip-copy">Copy CSV</button>
+                            <button class="wip-action-btn" id="wip-download">Download CSV</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="wip-table-shell">
@@ -645,12 +700,13 @@
                 </div>
                 <div class="wip-card-grid" id="wip-flow-cards"></div>
 
-                <div class="glass-panel rounded-2xl p-6 border border-slate-700/60 mt-8">
+                <div class="glass-panel rounded-2xl p-6 border border-slate-700/60 mt-8" id="compass-section">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="material-symbols-outlined text-emerald-300">track_changes</span>
                         <h4 class="text-xl font-semibold">Compass: Product &amp; Tech Contact Map</h4>
                     </div>
                     <p class="text-sm text-slate-300 mb-5">A readable, role-first view of who to reach for each team. Use this for routing work, removing blockers, and decision reviews.</p>
+                    <p class="text-xs text-slate-500 mb-4">Last updated: <span id="compass-last-updated">—</span></p>
                     <div class="compass-grid" id="compass-grid"></div>
                 </div>
             </div>
@@ -659,7 +715,7 @@
 
     <!-- POV VIEW -->
     <div id="pov-view" class="view-container">
-        <header class="relative min-h-[70vh] flex flex-col justify-center items-center overflow-hidden px-6 hero-gradient">
+        <header class="relative min-h-[70vh] flex flex-col justify-center items-center overflow-hidden px-6 hero-gradient" id="pov-overview">
             <div class="relative max-w-5xl mx-auto text-center z-10">
                 <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-amber-500/40 bg-amber-500/10 mb-5">
                     <span class="material-symbols-outlined text-sm text-amber-300">visibility</span>
@@ -674,7 +730,18 @@
             </div>
         </header>
 
-        <section class="py-12 px-4 bg-[#020617]">
+        <section class="py-4 px-4 bg-slate-950/70">
+            <div class="max-w-7xl mx-auto">
+                <div class="mini-toc">
+                    <span class="mini-toc-label">Quick nav</span>
+                    <button class="mini-toc-btn" data-anchor="#pov-overview">Overview</button>
+                    <button class="mini-toc-btn" data-anchor="#pov-diagram">Role diagram</button>
+                    <button class="mini-toc-btn" data-anchor="#pov-roles">Role cards</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 px-4 bg-[#020617]" id="pov-diagram">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-6">
                     <h2 class="text-2xl md:text-3xl font-semibold mb-2">How Roles Shape the System</h2>
@@ -754,7 +821,7 @@
             </div>
         </section>
 
-        <section class="py-10 px-4 bg-slate-950">
+        <section class="py-10 px-4 bg-slate-950" id="pov-roles">
             <div class="max-w-7xl mx-auto">
                 <div id="pov-roles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="pov-role-card glass-panel rounded-2xl p-6 border-t-4 border-blue-500 hover:bg-slate-800/60 transition-all duration-300" data-team="stream">
@@ -895,6 +962,27 @@
             </div>
         </section>
     </div>
+
+    <section class="py-12 px-4 bg-slate-950" id="glossary">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-between gap-4 flex-wrap mb-6">
+                <h3 class="text-2xl font-semibold">Glossary</h3>
+                <span class="text-xs text-slate-500">Short definitions for shared language</span>
+            </div>
+            <div class="glossary-grid">
+                <div class="glossary-item"><span class="glossary-term">Elefante</span><span class="glossary-desc">Structural capability the system must build (the real problem).</span></div>
+                <div class="glossary-item"><span class="glossary-term">Slice Q1</span><span class="glossary-desc">Concrete, measurable piece that reduces fragility now.</span></div>
+                <div class="glossary-item"><span class="glossary-term">Truth gap</span><span class="glossary-desc">System state says “valid” while reality is inconsistent.</span></div>
+                <div class="glossary-item"><span class="glossary-term">State contract</span><span class="glossary-desc">Explicit transitions, invariants, and reconciliation rules.</span></div>
+                <div class="glossary-item"><span class="glossary-term">WIP</span><span class="glossary-desc">Work in progress. High WIP hides system ambiguity.</span></div>
+                <div class="glossary-item"><span class="glossary-term">Aging</span><span class="glossary-desc">Time stuck in a state; reveals missing decisions.</span></div>
+                <div class="glossary-item"><span class="glossary-term">Residuality</span><span class="glossary-desc">What value survives under stress; not component count.</span></div>
+                <div class="glossary-item"><span class="glossary-term">DDO</span><span class="glossary-desc">Discovery, Delivery, Operations running in parallel.</span></div>
+                <div class="glossary-item"><span class="glossary-term">4ojos</span><span class="glossary-desc">Customer-facing experience channel.</span></div>
+                <div class="glossary-item"><span class="glossary-term">casimirx</span><span class="glossary-desc">Operations and internal tooling perspective.</span></div>
+            </div>
+        </div>
+    </section>
 
     <footer class="py-10 bg-slate-950 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-6 text-center text-xs text-slate-500">

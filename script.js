@@ -45,6 +45,19 @@ function bindAnchors() {
     });
 }
 
+function bindMiniToc() {
+    document.querySelectorAll('.mini-toc-btn, .quick-action-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.dataset.anchor;
+            if (!target) return;
+            const el = document.querySelector(target);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+}
+
 function setActiveButtons(selector, mode) {
     document.querySelectorAll(selector).forEach(btn => {
         if (btn.dataset.mode === mode) {
@@ -68,8 +81,16 @@ function switchView(view, evt) {
         ensureStaExtras();
     }
 
+    if (view === 'wow' && wowActiveMode) {
+        wowSetMode(wowActiveMode);
+    }
+
     if (view === 'pom' && pomActiveLayer) {
         pomToggleLayer(pomActiveLayer);
+    }
+
+    if (view === 'sta' && staActiveMode) {
+        staSetMode(staActiveMode);
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -149,7 +170,9 @@ const trackPaths = {
     'pom-operations': `M -80,550 C 260,600 540,500 1280,550`
 };
 
+let wowActiveMode = 'default';
 let pomActiveLayer = 'all';
+let staActiveMode = 'standard';
 
 function buildWowDiagram() {
     const container = document.getElementById('wow-flow-diagram');
@@ -239,6 +262,7 @@ function wowSetMode(mode) {
     const descEl = document.getElementById('wow-overlay-desc');
 
     if (!loopsLayer || !residualityLayer) return;
+    wowActiveMode = mode;
     setActiveButtons('.wow-mode-btn', mode);
     loopsLayer.classList.add('opacity-0');
     residualityLayer.classList.add('opacity-0');
@@ -753,6 +777,7 @@ function staSetMode(mode) {
     const descEl = document.getElementById('sta-overlay-desc');
 
     [ddoLayer, teamsLayer, rtLayer].forEach(el => el && el.classList.add('opacity-0'));
+    staActiveMode = mode;
     setActiveButtons('.sta-mode-btn', mode);
 
     const info = {
@@ -2152,8 +2177,17 @@ const wipTeamStyles = {
 const wipFilterState = {
     layer: 'All',
     team: 'All',
-    domain: 'All'
+    domain: 'All',
+    search: ''
 };
+
+const wipSignals = [
+    { icon: 'layers', label: 'Avg WIP', desc: 'Work in progress per team' },
+    { icon: 'schedule', label: 'Aging by state', desc: 'Time stuck reveals ambiguity' },
+    { icon: 'block', label: '% blocked items', desc: 'Blockers and time blocked' },
+    { icon: 'sync_alt', label: 'Handoffs per item', desc: 'Friction proxy' },
+    { icon: 'trending_up', label: 'Throughput stability', desc: 'No WIP growth' }
+];
 
 let wipFiltersBound = false;
 let staExtrasRendered = false;
@@ -2202,6 +2236,20 @@ function applyWipFilters(rows) {
         if (wipFilterState.layer !== 'All' && row.layer !== wipFilterState.layer) return false;
         if (wipFilterState.team !== 'All' && row.team !== wipFilterState.team) return false;
         if (wipFilterState.domain !== 'All' && row.domainType !== wipFilterState.domain) return false;
+        if (wipFilterState.search) {
+            const haystack = [
+                row.layer,
+                row.team,
+                row.context,
+                row.flow,
+                row.start,
+                row.end,
+                row.value,
+                row.moments,
+                ...(row.features || [])
+            ].join(' ').toLowerCase();
+            if (!haystack.includes(wipFilterState.search.toLowerCase())) return false;
+        }
         return true;
     });
 }
@@ -2216,7 +2264,33 @@ function renderWipFilters() {
 function renderWipFilterMeta(filteredCount, totalCount) {
     const meta = document.getElementById('wip-filter-meta');
     if (!meta) return;
-    meta.textContent = `Showing ${filteredCount} of ${totalCount} flows`;
+    const lastUpdated = typeof WIP_FLOW_LAST_UPDATED === 'string' ? WIP_FLOW_LAST_UPDATED : '—';
+    const searchLabel = wipFilterState.search ? ` · search: "${wipFilterState.search}"` : '';
+    meta.textContent = `Showing ${filteredCount} of ${totalCount} flows · Updated ${lastUpdated}${searchLabel}`;
+}
+
+function renderWipSignals(filteredCount) {
+    const container = document.getElementById('wip-signal-banner');
+    if (!container) return;
+    const chips = wipSignals.map(signal => `
+        <div class="wip-signal-chip">
+            <span class="material-symbols-outlined">${signal.icon}</span>
+            <div>
+                <p class="wip-signal-title">${signal.label}</p>
+                <p class="wip-signal-desc">${signal.desc}</p>
+            </div>
+        </div>
+    `).join('');
+    container.innerHTML = `
+        <div class="wip-signal-header">
+            <div>
+                <h4>Top 5 system signals</h4>
+                <p>Applies to ${filteredCount} selected flows</p>
+            </div>
+            <span class="wip-signal-badge">Sensors</span>
+        </div>
+        <div class="wip-signal-grid">${chips}</div>
+    `;
 }
 
 function renderWipFlowTable(rows) {
@@ -2334,8 +2408,74 @@ function renderWipSection() {
     const rows = applyWipFilters(WIP_FLOW_ROWS || []);
     renderWipFilters();
     renderWipFilterMeta(rows.length, (WIP_FLOW_ROWS || []).length);
+    renderWipSignals(rows.length);
     renderWipFlowTable(rows);
     renderWipFlowCards(rows);
+    renderWipLastUpdated();
+}
+
+function renderWipLastUpdated() {
+    const el = document.getElementById('wip-last-updated');
+    if (!el) return;
+    el.textContent = typeof WIP_FLOW_LAST_UPDATED === 'string' ? WIP_FLOW_LAST_UPDATED : '—';
+}
+
+function generateWipCsv(rows) {
+    const headers = ['Layer', 'Accountable Team', 'Bounded Context', 'Flow', 'Start Event', 'End Event', 'Value Delivered', 'Moments of Truth', 'Features', 'Domain Type'];
+    const lines = [headers.join(',')];
+    rows.forEach(row => {
+        const features = (row.features || []).join(' | ');
+        const values = [
+            row.layer,
+            row.team,
+            row.context,
+            row.flow,
+            row.start,
+            row.end,
+            row.value,
+            row.moments,
+            features,
+            row.domainType
+        ].map(value => `"${String(value || '').replace(/"/g, '""')}"`);
+        lines.push(values.join(','));
+    });
+    return lines.join('\n');
+}
+
+function copyWipCsv() {
+    const rows = applyWipFilters(WIP_FLOW_ROWS || []);
+    const csv = generateWipCsv(rows);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(csv);
+    }
+}
+
+function downloadWipCsv() {
+    const rows = applyWipFilters(WIP_FLOW_ROWS || []);
+    const csv = generateWipCsv(rows);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'wip-flow-atlas.csv';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
+function bindWipActions() {
+    const search = document.getElementById('wip-search');
+    const copy = document.getElementById('wip-copy');
+    const download = document.getElementById('wip-download');
+    if (search) {
+        search.addEventListener('input', event => {
+            wipFilterState.search = event.target.value.trim();
+            renderWipSection();
+        });
+    }
+    if (copy) copy.addEventListener('click', copyWipCsv);
+    if (download) download.addEventListener('click', downloadWipCsv);
 }
 
 function renderCompassTeams() {
@@ -2354,12 +2494,17 @@ function renderCompassTeams() {
             <p><strong>Contact:</strong> ${team.contact}</p>
         </div>
     `).join('');
+    const updated = document.getElementById('compass-last-updated');
+    if (updated) {
+        updated.textContent = typeof COMPASS_LAST_UPDATED === 'string' ? COMPASS_LAST_UPDATED : '—';
+    }
 }
 
 function ensureStaExtras() {
     if (staExtrasRendered) return;
     renderWipSection();
     bindWipFilters();
+    bindWipActions();
     renderCompassTeams();
     staExtrasRendered = true;
 }
@@ -2377,6 +2522,7 @@ window.addEventListener('load', () => {
     renderContextOwnership();
     initReveal();
     bindAnchors();
+    bindMiniToc();
     bindTooltips();
     bindPomPrinciples();
     bindPomGateSteps();

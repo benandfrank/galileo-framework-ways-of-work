@@ -1,3 +1,5 @@
+const COMPASS_LAST_UPDATED = '2026-02-03';
+
 const COMPASS_TEAMS = [
     {
         name: 'Customer Journey Stream',
