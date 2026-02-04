@@ -68,6 +68,10 @@ function switchView(view, evt) {
         ensureStaExtras();
     }
 
+    if (view === 'pom' && pomActiveLayer) {
+        pomToggleLayer(pomActiveLayer);
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(checkReveal, 150);
 }
@@ -144,6 +148,8 @@ const trackPaths = {
     'pom-delivery': `M -80,350 C 260,350 540,350 1280,350`,
     'pom-operations': `M -80,550 C 260,600 540,500 1280,550`
 };
+
+let pomActiveLayer = 'all';
 
 function buildWowDiagram() {
     const container = document.getElementById('wow-flow-diagram');
@@ -538,6 +544,7 @@ function pomToggleLayer(layer) {
         if (el) el.classList.add('opacity-0');
     });
 
+    pomActiveLayer = layer;
     setActiveButtons('.pom-mode-btn', layer);
 
     const target = document.getElementById(`pom-layer-${layer === 'all' ? '' : layer}`);
@@ -1887,6 +1894,251 @@ function bindTooltips() {
 }
 
 // ===============================
+// POM Principle Modal
+// ===============================
+const pomPrinciples = {
+    problem: {
+        title: 'Problem-first, system-level',
+        subtitle: 'Outcome before feature',
+        color: '#3b82f6',
+        icon: 'radar',
+        why: 'Prevent feature-driven work that leaves systemic fragility intact.',
+        what: 'Every initiative must declare the failure class it removes and the blast radius it reduces.',
+        guardrail: 'If it doesn’t reduce state inconsistency, human intervention, detection time, or fiscal risk, it doesn’t compete for Q1 capacity.',
+        how: [
+            'Declare dominant failure mode and blast radius.',
+            'Define observable evidence of improvement.',
+            'Prioritize by cost of error, not by request volume.'
+        ]
+    },
+    failure: {
+        title: 'Design for failure',
+        subtitle: 'Degradation is the standard',
+        color: '#f43f5e',
+        icon: 'report_problem',
+        why: 'Failures are normal conditions; designing only the happy path shifts cost to people.',
+        what: 'Critical flows must be idempotent, reentrant, with explicit compensations and failure modes.',
+        guardrail: 'No critical release without failure-mode table, expected behavior, observability signals, and runbook.',
+        how: [
+            'Enumerate failure modes in acceptance criteria.',
+            'Build compensations and retries explicitly.',
+            'Instrument detection signals before release.'
+        ]
+    },
+    contract: {
+        title: 'State as a contract',
+        subtitle: 'Critical states are not fields',
+        color: '#f59e0b',
+        icon: 'rule',
+        why: 'Ambiguous states create operational truth gaps and late correction.',
+        what: 'States require explicit transitions, invariants, concurrency rules, and reconciliation.',
+        guardrail: 'Touching a critical state without transitions/invariants/reconciliation creates structural debt.',
+        how: [
+            'Define state machine + invalid transitions.',
+            'Encode invariants close to the data source.',
+            'Document reconciliation and ownership.'
+        ]
+    },
+    shiftleft: {
+        title: 'Shift-left control',
+        subtitle: 'Prevent before detect',
+        color: '#10b981',
+        icon: 'lock',
+        why: 'Late correction drives escalations, multitasking, and heroic work.',
+        what: 'Prefer preventive validations, semantic blocks, gates, and circuit breakers.',
+        guardrail: 'Recurring manual exceptions are bugs or missing capability, never “normal ops.”',
+        how: [
+            'Add blocking validations to stop invalid states.',
+            'Use gates and role checks for risky operations.',
+            'Classify repeated workarounds as debt.'
+        ]
+    },
+    done: {
+        title: 'Done = stable operation',
+        subtitle: 'Deploy ≠ Done',
+        color: '#a855f7',
+        icon: 'task_alt',
+        why: 'Operational stability is the only proof of value in production.',
+        what: 'Done includes observability, runbooks, and repayment of temporary controls.',
+        guardrail: 'If success relies on manual monitoring, it is not done.',
+        how: [
+            'Define SLIs + adoption thresholds.',
+            'Add runbooks and post-release reviews.',
+            'Pay temporary debt (flags, bypasses).' 
+        ]
+    },
+    truth: {
+        title: 'Truth over reporting',
+        subtitle: 'Integrity before analytics',
+        color: '#64748b',
+        icon: 'visibility',
+        why: 'Reporting on incorrect states amplifies misleading decisions.',
+        what: 'Integrate contracts and validations near the data source.',
+        guardrail: 'No “masking” inconsistency with dashboards; fix the source.',
+        how: [
+            'Place integrity checks close to writes.',
+            'Track mismatch rates and intervention counts.',
+            'Prioritize truth before analytics layers.'
+        ]
+    }
+};
+
+function openPomPrinciple(key) {
+    const data = pomPrinciples[key];
+    const overlay = document.getElementById('pom-principle-modal');
+    if (!data || !overlay) return;
+    const iconBox = document.getElementById('pom-principle-icon');
+    const title = document.getElementById('pom-principle-title');
+    const subtitle = document.getElementById('pom-principle-subtitle');
+    const why = document.getElementById('pom-principle-why');
+    const what = document.getElementById('pom-principle-what');
+    const guardrail = document.getElementById('pom-principle-guardrail');
+    const how = document.getElementById('pom-principle-how');
+
+    iconBox.style.background = `${data.color}20`;
+    iconBox.innerHTML = `<span class="material-symbols-outlined" style="color:${data.color}">${data.icon}</span>`;
+    title.textContent = data.title;
+    subtitle.textContent = data.subtitle;
+    why.textContent = data.why;
+    what.textContent = data.what;
+    guardrail.textContent = data.guardrail;
+    how.innerHTML = data.how.map(item => `<li>${item}</li>`).join('');
+
+    overlay.classList.remove('overlay-hidden');
+    overlay.setAttribute('aria-hidden', 'false');
+}
+
+function closePomPrinciple() {
+    const overlay = document.getElementById('pom-principle-modal');
+    if (!overlay) return;
+    overlay.classList.add('overlay-hidden');
+    overlay.setAttribute('aria-hidden', 'true');
+}
+
+function bindOverlayClose() {
+    const overlays = ['pom-principle-modal', 'pom-gate-modal', 'journey-step-overlay'];
+    overlays.forEach(id => {
+        const overlay = document.getElementById(id);
+        if (!overlay) return;
+        overlay.addEventListener('click', event => {
+            if (event.target !== overlay) return;
+            if (id === 'pom-principle-modal') closePomPrinciple();
+            if (id === 'pom-gate-modal') closePomGate();
+            if (id === 'journey-step-overlay') hideJourneyStepDetail();
+        });
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        const principle = document.getElementById('pom-principle-modal');
+        const gate = document.getElementById('pom-gate-modal');
+        const journey = document.getElementById('journey-step-overlay');
+        if (principle && !principle.classList.contains('overlay-hidden')) closePomPrinciple();
+        if (gate && !gate.classList.contains('overlay-hidden')) closePomGate();
+        if (journey && !journey.classList.contains('overlay-hidden')) hideJourneyStepDetail();
+    });
+}
+
+function bindPomPrinciples() {
+    document.querySelectorAll('.pom-guardrail-chip').forEach(btn => {
+        btn.addEventListener('click', () => openPomPrinciple(btn.dataset.principle));
+        btn.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openPomPrinciple(btn.dataset.principle);
+            }
+        });
+    });
+}
+
+// ===============================
+// High-Sensitivity Gate Modal
+// ===============================
+const pomGateSteps = {
+    1: {
+        title: 'Question requirements',
+        intent: 'Separate true constraints from inherited assumptions before building.',
+        rule: 'If the problem is not clearly formulated, do not design.',
+        checklist: [
+            'Identify the explicit owner of the requirement.',
+            'Clarify which risk it mitigates (legal vs operational vs habit).',
+            'Document the real problem statement before solutions.'
+        ]
+    },
+    2: {
+        title: 'Eliminate steps before adding',
+        intent: 'Reduce complexity before introducing controls or workflows.',
+        rule: 'Elimination is a first-class design decision.',
+        checklist: [
+            'Ask what happens if the step does not exist.',
+            'Remove workarounds that cannot justify their value.',
+            'Avoid adding parallel paths unless mandated.'
+        ]
+    },
+    3: {
+        title: 'Simplify the design',
+        intent: 'Reduce states, transitions, and implicit decisions.',
+        rule: 'Do not optimize what should not exist.',
+        checklist: [
+            'Minimize state combinations and transitions.',
+            'Make decisions explicit and auditable.',
+            'Prefer fewer, clearer paths over cleverness.'
+        ]
+    },
+    4: {
+        title: 'Accelerate with intent',
+        intent: 'Speed only after direction is correct.',
+        rule: 'If acceleration increases fragility, it is risk, not progress.',
+        checklist: [
+            'Validate the direction with operational evidence.',
+            'Align with stability and error-cost reduction.',
+            'Scale only when the flow is truthful.'
+        ]
+    },
+    5: {
+        title: 'Automate last',
+        intent: 'Automate only what is already true and stable.',
+        rule: 'Automating a broken process scales the error.',
+        checklist: [
+            'Confirm contracts and rules are explicit.',
+            'Verify observability and correction paths.',
+            'Automate after eliminating ambiguity.'
+        ]
+    }
+};
+
+function openPomGate(stepId) {
+    const data = pomGateSteps[stepId];
+    const overlay = document.getElementById('pom-gate-modal');
+    if (!data || !overlay) return;
+    document.getElementById('pom-gate-title').textContent = `Step ${stepId}: ${data.title}`;
+    document.getElementById('pom-gate-intent').textContent = data.intent;
+    document.getElementById('pom-gate-rule').textContent = data.rule;
+    document.getElementById('pom-gate-checklist').innerHTML = data.checklist.map(item => `<li>${item}</li>`).join('');
+    overlay.classList.remove('overlay-hidden');
+    overlay.setAttribute('aria-hidden', 'false');
+}
+
+function closePomGate() {
+    const overlay = document.getElementById('pom-gate-modal');
+    if (!overlay) return;
+    overlay.classList.add('overlay-hidden');
+    overlay.setAttribute('aria-hidden', 'true');
+}
+
+function bindPomGateSteps() {
+    document.querySelectorAll('.pom-gate-step').forEach(btn => {
+        btn.addEventListener('click', () => openPomGate(btn.dataset.gate));
+        btn.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openPomGate(btn.dataset.gate);
+            }
+        });
+    });
+}
+
+// ===============================
 // WIP Flow Atlas
 // ===============================
 const wipTeamStyles = {
@@ -2126,7 +2378,12 @@ window.addEventListener('load', () => {
     initReveal();
     bindAnchors();
     bindTooltips();
+    bindPomPrinciples();
+    bindPomGateSteps();
+    bindOverlayClose();
     ENABLE_FOCUS();
+
+    pomToggleLayer('all');
 
     const activeView = document.querySelector('.view-container.active');
     if (activeView && activeView.id === 'sta-view') {

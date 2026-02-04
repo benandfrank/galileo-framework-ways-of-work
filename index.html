@@ -296,6 +296,122 @@
             </div>
         </section>
 
+        <section class="py-12 px-4 bg-slate-950" id="pom-operating-system">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 mb-8">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-semibold">POM Operating System</h2>
+                        <p class="text-sm text-slate-300 max-w-2xl mt-2">Guardrails, practices, and system sensors extracted from the Q1 Convergencia Sistémica workshop. This is the minimum control layer to prevent heroic operations.</p>
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 text-emerald-200 text-[11px] uppercase tracking-[0.22em]">
+                        <span class="material-symbols-outlined text-xs">verified</span>
+                        Non-negotiable
+                    </div>
+                </div>
+
+                <div class="pom-why-what-how">
+                    <div class="pom-why-card">
+                        <p class="pom-why-label">Why</p>
+                        <p class="pom-why-text">Reduce operational lies, human dependency, and late error detection.</p>
+                    </div>
+                    <div class="pom-why-card">
+                        <p class="pom-why-label">What</p>
+                        <p class="pom-why-text">Guardrails + WoW mechanics + system sensors + decision gate.</p>
+                    </div>
+                    <div class="pom-why-card">
+                        <p class="pom-why-label">How</p>
+                        <p class="pom-why-text">Single backlog, pull by capacity, WIP limits, aging signals, explicit urgency, observability, and stable‑operation DoD.</p>
+                    </div>
+                </div>
+
+                <div class="pom-legend">
+                    <span class="pom-legend-item"><span class="pom-legend-dot pom-legend-blue"></span>Guardrails</span>
+                    <span class="pom-legend-item"><span class="pom-legend-dot pom-legend-emerald"></span>WoW mechanics</span>
+                    <span class="pom-legend-item"><span class="pom-legend-dot pom-legend-amber"></span>System sensors</span>
+                    <span class="pom-legend-item"><span class="pom-legend-dot pom-legend-rose"></span>High‑sensitivity gate</span>
+                </div>
+
+                <div class="pom-guardrail-row">
+                    <button class="pom-guardrail-chip bg-blue-500/20 text-blue-200 border-blue-500/40" data-principle="problem"><span class="material-symbols-outlined">radar</span>Problem-first, system-level</button>
+                    <button class="pom-guardrail-chip bg-rose-500/20 text-rose-200 border-rose-500/40" data-principle="failure"><span class="material-symbols-outlined">report_problem</span>Design for failure</button>
+                    <button class="pom-guardrail-chip bg-amber-500/20 text-amber-200 border-amber-500/40" data-principle="contract"><span class="material-symbols-outlined">rule</span>State as a contract</button>
+                    <button class="pom-guardrail-chip bg-emerald-500/20 text-emerald-200 border-emerald-500/40" data-principle="shiftleft"><span class="material-symbols-outlined">lock</span>Shift-left control</button>
+                    <button class="pom-guardrail-chip bg-purple-500/20 text-purple-200 border-purple-500/40" data-principle="done"><span class="material-symbols-outlined">task_alt</span>Done = stable operation</button>
+                    <button class="pom-guardrail-chip bg-slate-500/20 text-slate-200 border-slate-500/40" data-principle="truth"><span class="material-symbols-outlined">visibility</span>Truth over reporting</button>
+                </div>
+
+                <div class="pom-ops-grid">
+                    <article class="glass-panel rounded-2xl p-6 border border-slate-700/60">
+                        <div class="pom-card-title"><span class="material-symbols-outlined text-blue-300">workspaces</span>WoW Mechanics (Control)</div>
+                        <ul class="pom-card-list">
+                            <li>Single backlog (initiatives, BAU, bugs, risk)</li>
+                            <li>Pull by capacity (urgency is explicit)</li>
+                            <li>WIP limits as truth indicator</li>
+                            <li>Aging reveals ambiguous states</li>
+                            <li>Urgency classes + decision windows</li>
+                        </ul>
+                    </article>
+                    <article class="glass-panel rounded-2xl p-6 border border-slate-700/60">
+                        <div class="pom-card-title"><span class="material-symbols-outlined text-emerald-300">monitoring</span>System Sensors</div>
+                        <div class="pom-sensor-block">
+                            <p class="pom-sensor-label">Leading</p>
+                            <ul class="pom-card-list">
+                                <li>Avg WIP, aging by state</li>
+                                <li>% blocked items + time blocked</li>
+                                <li>Handoffs per item (friction proxy)</li>
+                            </ul>
+                        </div>
+                        <div class="pom-sensor-block">
+                            <p class="pom-sensor-label">Lagging</p>
+                            <ul class="pom-card-list">
+                                <li>Throughput without WIP growth</li>
+                                <li>Stop-the-line incidents by urgency</li>
+                                <li>WIP + aging reduction without throughput loss</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="glass-panel rounded-2xl p-6 border border-slate-700/60">
+                        <div class="pom-card-title"><span class="material-symbols-outlined text-purple-300">rocket_launch</span>Done = Stable Operation</div>
+                        <ul class="pom-card-list">
+                            <li>Deploy → Release → Done (in that order)</li>
+                            <li>Failure modes + observability required</li>
+                            <li>Runbook + post-release review</li>
+                            <li>Pay temporary debt (flags, bypasses)</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <div class="pom-pipeline">
+                    <div class="pom-pipeline-step">
+                        <p class="pom-pipeline-label">Elephant (structural purpose)</p>
+                        <p class="pom-pipeline-title">What capability must exist so the system stops lying?</p>
+                    </div>
+                    <div class="pom-pipeline-arrow"><span class="material-symbols-outlined">arrow_forward</span></div>
+                    <div class="pom-pipeline-step">
+                        <p class="pom-pipeline-label">Slice Q1 (concrete)</p>
+                        <p class="pom-pipeline-title">Smallest unit that reduces fragility now.</p>
+                    </div>
+                    <div class="pom-pipeline-arrow"><span class="material-symbols-outlined">arrow_forward</span></div>
+                    <div class="pom-pipeline-step">
+                        <p class="pom-pipeline-label">Signals</p>
+                        <p class="pom-pipeline-title">Leading + lagging evidence of improvement.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6 border border-rose-500/40 mt-8">
+                    <div class="pom-card-title"><span class="material-symbols-outlined text-rose-300">warning</span>High-Sensitivity Design Gate (Mandatory)</div>
+                    <p class="text-sm text-slate-300 mb-4">Use this 5-step gate for fiscal, regulatory, or high blast-radius flows. It prevents speeding up broken systems.</p>
+                    <div class="pom-gate-grid">
+                        <button class="pom-gate-step" data-gate="1"><span class="pom-step-index">1</span>Question requirements</button>
+                        <button class="pom-gate-step" data-gate="2"><span class="pom-step-index">2</span>Eliminate steps before adding</button>
+                        <button class="pom-gate-step" data-gate="3"><span class="pom-step-index">3</span>Simplify the design</button>
+                        <button class="pom-gate-step" data-gate="4"><span class="pom-step-index">4</span>Accelerate with intent</button>
+                        <button class="pom-gate-step" data-gate="5"><span class="pom-step-index">5</span>Automate last</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="bg-slate-950 py-16" id="context-stress">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="glass-panel rounded-2xl p-7">
@@ -809,6 +925,72 @@
                 <div><p class="text-[11px] text-slate-400 uppercase tracking-wide mb-1">Exceptions & failure modes</p><p id="journey-step-exceptions" class="text-sm text-slate-200"></p></div>
             </div>
             <div class="bg-emerald-500/10 rounded-xl p-3 border border-emerald-500/30"><p class="text-[11px] text-slate-400 uppercase tracking-wide mb-1">DDO Contribution Map</p><p id="journey-step-contribution" class="text-sm text-slate-200"></p></div>
+        </div>
+    </div>
+
+    <div id="pom-principle-modal" class="overlay-backdrop overlay-hidden" aria-hidden="true">
+        <div class="glass-panel rounded-2xl p-6 border border-slate-700/70 max-w-2xl w-full">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <div id="pom-principle-icon" class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-blue-400 text-2xl">radar</span>
+                    </div>
+                    <div>
+                        <h3 id="pom-principle-title" class="text-xl font-bold text-slate-100">Principle</h3>
+                        <p id="pom-principle-subtitle" class="text-sm text-slate-400">Guardrail</p>
+                    </div>
+                </div>
+                <button aria-label="Close principle detail" onclick="closePomPrinciple()" class="text-slate-400 hover:text-slate-200"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-slate-800/60 rounded-xl p-4 border border-slate-700/60">
+                    <p class="text-[11px] text-slate-400 uppercase tracking-wide mb-1">Why</p>
+                    <p id="pom-principle-why" class="text-sm text-slate-200">—</p>
+                </div>
+                <div class="bg-slate-800/60 rounded-xl p-4 border border-slate-700/60">
+                    <p class="text-[11px] text-slate-400 uppercase tracking-wide mb-1">What it enforces</p>
+                    <p id="pom-principle-what" class="text-sm text-slate-200">—</p>
+                </div>
+                <div class="bg-slate-800/60 rounded-xl p-4 border border-slate-700/60">
+                    <p class="text-[11px] text-slate-400 uppercase tracking-wide mb-1">Guardrail</p>
+                    <p id="pom-principle-guardrail" class="text-sm text-slate-200">—</p>
+                </div>
+            </div>
+            <div class="mt-4 p-4 bg-slate-900/60 rounded-xl border border-slate-700/60">
+                <p class="text-[11px] text-slate-400 uppercase tracking-wide mb-1">How to apply</p>
+                <ul id="pom-principle-how" class="text-sm text-slate-200 space-y-1"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="pom-gate-modal" class="overlay-backdrop overlay-hidden" aria-hidden="true">
+        <div class="glass-panel rounded-2xl p-6 border border-rose-500/40 max-w-2xl w-full">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <div id="pom-gate-icon" class="w-12 h-12 rounded-xl bg-rose-500/20 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-rose-300 text-2xl">warning</span>
+                    </div>
+                    <div>
+                        <h3 id="pom-gate-title" class="text-xl font-bold text-slate-100">Design Gate</h3>
+                        <p id="pom-gate-subtitle" class="text-sm text-slate-400">High-sensitivity flow</p>
+                    </div>
+                </div>
+                <button aria-label="Close gate detail" onclick="closePomGate()" class="text-slate-400 hover:text-slate-200"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-slate-800/60 rounded-xl p-4 border border-slate-700/60">
+                    <p class="text-[11px] text-slate-400 uppercase tracking-wide mb-1">Intent</p>
+                    <p id="pom-gate-intent" class="text-sm text-slate-200">—</p>
+                </div>
+                <div class="bg-slate-800/60 rounded-xl p-4 border border-slate-700/60">
+                    <p class="text-[11px] text-slate-400 uppercase tracking-wide mb-1">Decision rule</p>
+                    <p id="pom-gate-rule" class="text-sm text-slate-200">—</p>
+                </div>
+            </div>
+            <div class="mt-4 p-4 bg-slate-900/60 rounded-xl border border-slate-700/60">
+                <p class="text-[11px] text-slate-400 uppercase tracking-wide mb-1">Checklist</p>
+                <ul id="pom-gate-checklist" class="text-sm text-slate-200 space-y-1"></ul>
+            </div>
         </div>
     </div>
 
