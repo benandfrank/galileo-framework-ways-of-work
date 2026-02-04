@@ -74,11 +74,11 @@
                 </div>
             </div>
             <div class="flex flex-wrap justify-center gap-3 mb-7">
-                <button onclick="wowSetMode('default')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-800 text-slate-200 text-xs md:text-sm border border-slate-600">Standard flow</button>
-                <button onclick="wowSetMode('insight')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-blue-200 text-xs md:text-sm border border-blue-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">psychology</span>Insight loop</button>
-                <button onclick="wowSetMode('feasibility')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-emerald-200 text-xs md:text-sm border border-emerald-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">link</span>Feasibility loop</button>
-                <button onclick="wowSetMode('stability')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-emerald-200 text-xs md:text-sm border border-emerald-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">health_and_safety</span>Stability loop</button>
-                <button onclick="wowSetMode('residuality')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-purple-200 text-xs md:text-sm border border-purple-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">visibility</span>Residuality view</button>
+                <button onclick="wowSetMode('default')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-800 text-slate-200 text-xs md:text-sm border border-slate-600 active" data-mode="default">Standard flow</button>
+                <button onclick="wowSetMode('insight')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-blue-200 text-xs md:text-sm border border-blue-700 flex items-center gap-1.5" data-mode="insight"><span class="material-symbols-outlined text-xs">psychology</span>Insight loop</button>
+                <button onclick="wowSetMode('feasibility')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-emerald-200 text-xs md:text-sm border border-emerald-700 flex items-center gap-1.5" data-mode="feasibility"><span class="material-symbols-outlined text-xs">link</span>Feasibility loop</button>
+                <button onclick="wowSetMode('stability')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-emerald-200 text-xs md:text-sm border border-emerald-700 flex items-center gap-1.5" data-mode="stability"><span class="material-symbols-outlined text-xs">health_and_safety</span>Stability loop</button>
+                <button onclick="wowSetMode('residuality')" class="wow-mode-btn px-4 py-2 rounded-full bg-slate-900 text-purple-200 text-xs md:text-sm border border-purple-700 flex items-center gap-1.5" data-mode="residuality"><span class="material-symbols-outlined text-xs">visibility</span>Residuality view</button>
             </div>
             <div class="flex flex-wrap justify-center gap-3 mb-4 text-[12px] text-slate-300">
                 <span class="journey-chip tag-blue flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Discovery</span>
@@ -266,10 +266,10 @@
                     <p class="text-sm md:text-base text-slate-300 max-w-xl">DDO tracks, Team Topologies, and Residuality overlays on the same space. No start or end points—customer value stream drives all tracks.</p>
                 </div>
                 <div class="flex flex-wrap gap-2 text-xs">
-                    <button onclick="pomToggleLayer('all')" class="pom-mode-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-200 border border-slate-700">Standard view</button>
-                    <button onclick="pomToggleLayer('loops')" class="pom-mode-btn px-3 py-1.5 rounded-lg bg-indigo-900/40 text-indigo-200 border border-indigo-700 flex items-center gap-1"><span class="material-symbols-outlined text-xs">sync</span>Feedback loops</span></button>
-                    <button onclick="pomToggleLayer('teams')" class="pom-mode-btn px-3 py-1.5 rounded-lg bg-amber-900/40 text-amber-200 border border-amber-700 flex items-center gap-1"><span class="material-symbols-outlined text-xs">groups</span>Team topologies</button>
-                    <button onclick="pomToggleLayer('residuality')" class="pom-mode-btn px-3 py-1.5 rounded-lg bg-rose-900/40 text-rose-200 border border-rose-700 flex items-center gap-1"><span class="material-symbols-outlined text-xs">warning</span>Residuality</button>
+                    <button onclick="pomToggleLayer('all')" class="pom-mode-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-200 border border-slate-700 active" data-mode="all">Standard view</button>
+                    <button onclick="pomToggleLayer('loops')" class="pom-mode-btn px-3 py-1.5 rounded-lg bg-indigo-900/40 text-indigo-200 border border-indigo-700 flex items-center gap-1" data-mode="loops"><span class="material-symbols-outlined text-xs">sync</span>Feedback loops</span></button>
+                    <button onclick="pomToggleLayer('teams')" class="pom-mode-btn px-3 py-1.5 rounded-lg bg-amber-900/40 text-amber-200 border border-amber-700 flex items-center gap-1" data-mode="teams"><span class="material-symbols-outlined text-xs">groups</span>Team topologies</button>
+                    <button onclick="pomToggleLayer('residuality')" class="pom-mode-btn px-3 py-1.5 rounded-lg bg-rose-900/40 text-rose-200 border border-rose-700 flex items-center gap-1" data-mode="residuality"><span class="material-symbols-outlined text-xs">warning</span>Residuality</button>
                 </div>
             </div>
             <div class="max-w-7xl mx-auto glass-panel rounded-3xl overflow-hidden shadow-xl relative h-[680px] diagram-shell">
@@ -343,10 +343,10 @@
                     <p class="text-slate-300 max-w-2xl mx-auto text-sm md:text-base">From customer-facing business contexts to foundational technical platform. Each layer reduces cognitive load for the layer above it.</p>
                 </div>
                 <div class="flex flex-wrap justify-center gap-3 mb-7">
-                    <button onclick="staSetMode('standard')" class="sta-mode-btn px-4 py-2 rounded-full bg-slate-800 text-slate-200 text-xs md:text-sm border border-slate-600">Standard view</button>
-                    <button onclick="staSetMode('ddo')" class="sta-mode-btn px-4 py-2 rounded-full bg-slate-900 text-blue-200 text-xs md:text-sm border border-blue-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">sync_alt</span>DDO tracks</button>
-                    <button onclick="staSetMode('teams')" class="sta-mode-btn px-4 py-2 rounded-full bg-slate-900 text-amber-200 text-xs md:text-sm border border-amber-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">groups</span>Team topologies</button>
-                    <button onclick="staSetMode('residuality')" class="sta-mode-btn px-4 py-2 rounded-full bg-slate-900 text-rose-200 text-xs md:text-sm border border-rose-700 flex items-center gap-1.5"><span class="material-symbols-outlined text-xs">warning</span>Residuality overlay</button>
+                    <button onclick="staSetMode('standard')" class="sta-mode-btn px-4 py-2 rounded-full bg-slate-800 text-slate-200 text-xs md:text-sm border border-slate-600 active" data-mode="standard">Standard view</button>
+                    <button onclick="staSetMode('ddo')" class="sta-mode-btn px-4 py-2 rounded-full bg-slate-900 text-blue-200 text-xs md:text-sm border border-blue-700 flex items-center gap-1.5" data-mode="ddo"><span class="material-symbols-outlined text-xs">sync_alt</span>DDO tracks</button>
+                    <button onclick="staSetMode('teams')" class="sta-mode-btn px-4 py-2 rounded-full bg-slate-900 text-amber-200 text-xs md:text-sm border border-amber-700 flex items-center gap-1.5" data-mode="teams"><span class="material-symbols-outlined text-xs">groups</span>Team topologies</button>
+                    <button onclick="staSetMode('residuality')" class="sta-mode-btn px-4 py-2 rounded-full bg-slate-900 text-rose-200 text-xs md:text-sm border border-rose-700 flex items-center gap-1.5" data-mode="residuality"><span class="material-symbols-outlined text-xs">warning</span>Residuality overlay</button>
                 </div>
                 <div class="relative w-full max-w-7xl mx-auto glass-panel rounded-3xl overflow-hidden shadow-xl diagram-shell">
                     <div class="absolute right-6 top-6 z-20">
@@ -504,11 +504,30 @@
                     </div>
                 </div>
 
+                <div class="glass-panel rounded-2xl p-5 border border-slate-700/60 mb-6">
+                    <div class="wip-filter-grid">
+                        <div class="wip-filter-group">
+                            <p class="wip-filter-label">Layer</p>
+                            <div class="wip-filter-options" id="wip-filter-layer"></div>
+                        </div>
+                        <div class="wip-filter-group">
+                            <p class="wip-filter-label">Accountable Team</p>
+                            <div class="wip-filter-options" id="wip-filter-team"></div>
+                        </div>
+                        <div class="wip-filter-group">
+                            <p class="wip-filter-label">Domain Type</p>
+                            <div class="wip-filter-options" id="wip-filter-domain"></div>
+                        </div>
+                    </div>
+                    <div class="wip-filter-meta" id="wip-filter-meta"></div>
+                </div>
+
                 <div class="wip-table-shell">
                     <div class="wip-table-scroll">
                         <table class="wip-table" id="wip-flow-table"></table>
                     </div>
                 </div>
+                <div class="wip-card-grid" id="wip-flow-cards"></div>
 
                 <div class="glass-panel rounded-2xl p-6 border border-slate-700/60 mt-8">
                     <div class="flex items-center gap-2 mb-4">
@@ -795,6 +814,8 @@
 
     <div id="diagram-tooltip" class="tooltip"></div>
 
+    <script src="data/wip-flows.js"></script>
+    <script src="data/compass-teams.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
